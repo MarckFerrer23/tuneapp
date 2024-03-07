@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/home"
+        android:icon="@drawable/baseline_home_24"
+        android:title="Home" />
+
+    <item
+        android:id="@+id/emotions"
+        android:icon="@drawable/motions"
+        android:title="Emotion" />
+
+    <item
+        android:id="@+id/connect"
+        android:icon="@drawable/connect"
+        android:title="Connect" />
+
+    <item
+        android:id="@+id/resources"
+        android:icon="@drawable/resources"
+        android:title="Resources" />
+
+    <item
+        android:id="@+id/setting"
+        android:icon="@drawable/baseline_settings_24"
+        android:title="Setting" />
+</menu>
