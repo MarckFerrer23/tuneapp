@@ -11,8 +11,8 @@
 
     <LinearLayout
         android:id="@+id/linear_layout"
-        android:layout_width="320dp"
-        android:layout_height="83dp"
+        android:layout_width="314dp"
+        android:layout_height="84dp"
         android:layout_marginTop="60dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
@@ -38,57 +38,40 @@
         android:id="@+id/SignIn"
         android:layout_width="263dp"
         android:layout_height="37dp"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="50dp"
         android:layout_marginRight="20dp"
         android:text="Sign up your account"
         android:textColor="#000000"
         android:textSize="26sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/linear_layout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/linear_layout"
+        app:layout_constraintEnd_toEndOf="@+id/linearLayout"
+        app:layout_constraintStart_toStartOf="@+id/linearLayout"
         app:layout_constraintTop_toTopOf="@+id/linear_layout" />
-    <LinearLayout
-        android:id="@+id/linear_layout1"
-        android:layout_width="411dp"
-        android:layout_height="258dp"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent">
-
-
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="15dp"
-            android:orientation="vertical"
-            app:srcCompat="@drawable/familypic" />
-    </LinearLayout>
 
     <Button
         android:id="@+id/button"
         android:layout_width="310dp"
         android:layout_height="73dp"
-        android:layout_marginBottom="4dp"
+        android:layout_marginTop="24dp"
         android:backgroundTint="#FA7456"
         android:text="Sign Up"
         android:textColor="#FFFFFF"
         android:textSize="18sp"
         android:textStyle="bold"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/linear_layout1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.516"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintBottom_toTopOf="@+id/imageView7"
+        app:layout_constraintEnd_toEndOf="@+id/linearLayout"
+        app:layout_constraintHorizontal_bias="0.166"
+        app:layout_constraintStart_toStartOf="@+id/linearLayout"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:layout_constraintVertical_bias="1.0" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="304dp"
         android:layout_height="227dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="24dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
@@ -118,11 +101,11 @@
             android:layout_marginTop="30dp"
             android:background="@drawable/edittext_background"
             android:ems="10"
+            android:hint="Name"
             android:inputType="text"
             android:paddingLeft="33dp"
             android:textColorHint="#000"
-            android:textSize="13dp"
-            android:hint="Name" />
+            android:textSize="13dp" />
 
         <EditText
             android:id="@+id/editTextTextEmailAddress"
@@ -178,10 +161,10 @@
             android:background="@drawable/edittext_background"
             android:ems="10"
             android:hint="Password"
+            android:inputType="textPassword"
             android:paddingLeft="33dp"
             android:textColorHint="#000"
-            android:textSize="13dp"
-            android:inputType="textPassword" />
+            android:textSize="13dp" />
 
         <ImageView
             android:id="@+id/imageView4"
@@ -200,5 +183,16 @@
             app:srcCompat="@drawable/ic_lock" />
 
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/imageView7"
+        android:layout_width="414dp"
+        android:layout_height="258dp"
+        android:layout_marginBottom="-8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/linearLayout"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="@+id/linearLayout"
+        app:srcCompat="@drawable/familypic" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

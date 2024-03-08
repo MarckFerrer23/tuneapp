@@ -11,12 +11,12 @@
 
         <LinearLayout
             android:id="@+id/linear_layout"
-            android:layout_width="321dp"
-            android:layout_height="86dp"
+            android:layout_width="298dp"
+            android:layout_height="80dp"
             android:layout_marginTop="60dp"
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.555"
+            app:layout_constraintHorizontal_bias="0.495"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -33,17 +33,16 @@
 
         <TextView
             android:id="@+id/SignIn"
-            android:layout_width="263dp"
-            android:layout_height="37dp"
+            android:layout_width="243dp"
+            android:layout_height="40dp"
             android:layout_marginStart="50dp"
-            android:layout_marginEnd="20dp"
             android:text="Sign in your account"
             android:textColor="#000000"
             android:textSize="26sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/linear_layout"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/linear_layout"
+            app:layout_constraintEnd_toEndOf="@+id/linearLayout"
+            app:layout_constraintStart_toStartOf="@+id/linearLayout"
             app:layout_constraintTop_toTopOf="@+id/linear_layout" />
 
         <Button
@@ -51,43 +50,23 @@
             android:layout_width="310dp"
             android:layout_height="73dp"
             android:layout_marginStart="66dp"
-            android:layout_marginEnd="66dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginTop="24dp"
             android:backgroundTint="#FA7456"
             android:text="Sign In"
             android:textColor="#FFFFFF"
             android:textSize="18sp"
             android:textStyle="bold"
             app:cornerRadius="0dp"
-            app:layout_constraintBottom_toTopOf="@+id/linear_layout1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.516"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <LinearLayout
-            android:id="@+id/linear_layout1"
-            android:layout_width="411dp"
-            android:layout_height="258dp"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent">
-
-
-                <ImageView
-                    android:id="@+id/imageView"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="15dp"
-                    android:scaleType="fitCenter"
-                    app:srcCompat="@drawable/familypic" />
-        </LinearLayout>
+            app:layout_constraintEnd_toEndOf="@+id/linearLayout"
+            app:layout_constraintHorizontal_bias="0.924"
+            app:layout_constraintStart_toStartOf="@+id/linearLayout"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
         <LinearLayout
             android:id="@+id/linearLayout"
             android:layout_width="297dp"
             android:layout_height="166dp"
+            android:layout_marginTop="64dp"
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -137,5 +116,16 @@
                     app:srcCompat="@drawable/ic_lock" />
 
         </LinearLayout>
+
+        <ImageView
+            android:id="@+id/imageView6"
+            android:layout_width="wrap_content"
+            android:layout_height="261dp"
+            android:layout_marginBottom="-9dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/buttonLog"
+            app:layout_constraintHorizontal_bias="0.495"
+            app:layout_constraintStart_toStartOf="@+id/buttonLog"
+            app:srcCompat="@drawable/familypic" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
