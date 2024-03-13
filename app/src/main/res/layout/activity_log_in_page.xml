@@ -6,8 +6,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#B3CEE5"
+    android:contentDescription="Insert your Email"
     app:layoutDescription="@xml/activity_log_in_page_scene2"
-    tools:context=".MainActivity" >
+    tools:context=".MainActivity">
 
         <LinearLayout
             android:id="@+id/linear_layout"
@@ -26,6 +27,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="25dp"
                     android:background="@android:color/transparent"
+                    android:contentDescription="Back Button"
                     android:cropToPadding="true"
                     android:scaleType="fitCenter"
                     app:srcCompat="@drawable/arrow" />
@@ -52,6 +54,7 @@
             android:layout_marginStart="66dp"
             android:layout_marginTop="24dp"
             android:backgroundTint="#FA7456"
+            android:contentDescription="Sign In"
             android:text="Sign In"
             android:textColor="#FFFFFF"
             android:textSize="18sp"
@@ -95,11 +98,12 @@
                     app:srcCompat="@drawable/ic_email" />
 
                 <EditText
-                    android:id="@+id/editTextTextPassword3"
+                    android:id="@+id/editTextTextPassword1"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginTop="30dp"
                     android:background="@drawable/edittext_background"
+                    android:contentDescription="Insert your Password"
                     android:drawablePadding="100dp"
                     android:ems="10"
                     android:hint="Password"
@@ -127,5 +131,19 @@
             app:layout_constraintHorizontal_bias="0.495"
             app:layout_constraintStart_toStartOf="@+id/buttonLog"
             app:srcCompat="@drawable/familypic" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="64dp"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/buttonLog"
+            app:layout_constraintVertical_bias="0.111" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

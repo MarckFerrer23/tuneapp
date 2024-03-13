@@ -6,10 +6,12 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 
-
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import com.example.tuneapp.databinding.ActivityMain2Binding;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity2 extends AppCompatActivity {
 
@@ -35,7 +37,10 @@ public class MainActivity2 extends AppCompatActivity {
                 replaceFragment(new SettingFragment());
             }
             return true;
+
         });
+
+
     }
 
     private void replaceFragment(Fragment fragment){
@@ -43,5 +48,11 @@ public class MainActivity2 extends AppCompatActivity {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.frame_layout, fragment);
         fragmentTransaction.commit();
+    }
+
+    public void logout(View view) {
+        FirebaseAuth.getInstance().signOut();
+        startActivity(new Intent(getApplicationContext(),LogInPage.class));
+        finish();
     }
 }
