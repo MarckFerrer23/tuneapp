@@ -104,6 +104,7 @@
             android:hint="Full Name"
             android:inputType="text"
             android:paddingLeft="33dp"
+            android:textColor="#000000"
             android:textColorHint="#000"
             android:textSize="13dp" />
 
@@ -119,6 +120,7 @@
             android:inputType="textEmailAddress"
             android:paddingLeft="33dp"
             android:textColorHint="#000"
+            android:textColor="#000000"
             android:textSize="13dp" />
 
         <ImageView
@@ -142,6 +144,7 @@
             android:inputType="phone"
             android:paddingLeft="33dp"
             android:textColorHint="#000"
+            android:textColor="#000000"
             android:textSize="13dp" />
 
         <ImageView
@@ -164,6 +167,7 @@
             android:inputType="textPassword"
             android:paddingLeft="33dp"
             android:textColorHint="#000"
+            android:textColor="#000000"
             android:textSize="13dp" />
 
         <ImageView
