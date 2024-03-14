@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "742100152689",
+    "project_id": "tuneapp-e34e2",
+    "storage_bucket": "tuneapp-e34e2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:742100152689:android:552dfe589850b8f921c6d0",
+        "android_client_info": {
+          "package_name": "com.example.tuneapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDdZv4Ixbk3QnhFn2VbEJKiIcfuvxLLJd0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
