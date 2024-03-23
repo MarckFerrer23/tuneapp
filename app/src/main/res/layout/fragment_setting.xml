@@ -16,13 +16,14 @@
         android:src="@drawable/profile" /> <!-- You can change @drawable/default_profile_image to the actual drawable resource for the profile picture -->
 
     <!-- User Information -->
+
     <TextView
         android:id="@+id/user_name"
-        android:layout_width="205dp"
+        android:layout_width="203dp"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="75dp"
         android:layout_toEndOf="@id/profile_image"
         android:text="User Name"
         android:textSize="18sp" />
