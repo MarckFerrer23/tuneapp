@@ -20,7 +20,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class LogInPage extends AppCompatActivity {
-    EditText mEmail,mPassword;
+    EditText mEmail, mPassword;
     Button mLoginBtn;
     TextView mCreateBtn;
     ProgressBar progressBar;
@@ -40,12 +40,18 @@ public class LogInPage extends AppCompatActivity {
             }
         });
 
-
         mEmail = findViewById(R.id.editTextTextEmailAddress3);
         mPassword = findViewById(R.id.editTextTextPassword1);
         progressBar = findViewById(R.id.progressBar);
-        fAuth =FirebaseAuth.getInstance();
+        fAuth = FirebaseAuth.getInstance();
         mLoginBtn = findViewById(R.id.buttonLog);
+
+        // Check if the user is already authenticated
+        if (fAuth.getCurrentUser() != null) {
+            // User is already logged in, redirect to main activity
+            startActivity(new Intent(getApplicationContext(), MainActivity2.class));
+            finish(); // Finish the current activity
+        }
 
         mLoginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,42 +59,37 @@ public class LogInPage extends AppCompatActivity {
                 String email = mEmail.getText().toString();
                 String password = mPassword.getText().toString();
 
-                if(TextUtils.isEmpty(email)){
+                if (TextUtils.isEmpty(email)) {
                     mEmail.setError("Email is Required.");
                     return;
                 }
-                if(TextUtils.isEmpty(password)){
+                if (TextUtils.isEmpty(password)) {
                     mPassword.setError("Password is Required.");
                     return;
-                }
-                if(password.length() < 6){
-                    mPassword.setError("Password must be 6 Characters.");
                 }
 
                 progressBar.setVisibility(View.VISIBLE);
 
-                //authenticate the user
-
-                fAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                // authenticate the user
+                fAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()){
-                            Toast.makeText( LogInPage.this, "Logged in Successfully",Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(getApplicationContext(),MainActivity2.class));
-                        }else{
-                            Toast.makeText(LogInPage.this,"Error! " + task.getException().getMessage(),Toast.LENGTH_SHORT).show();
+                        if (task.isSuccessful()) {
+                            Toast.makeText(LogInPage.this, "Logged in Successfully", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(getApplicationContext(), MainActivity2.class));
+                            finish(); // Finish the current activity
+                        } else {
+                            Toast.makeText(LogInPage.this, "Error! " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                             progressBar.setVisibility(View.GONE);
                         }
                     }
                 });
             }
         });
-
     }
 
-    public void openMainActivity(){
+    public void openMainActivity() {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
-
 }
