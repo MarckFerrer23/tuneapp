@@ -121,6 +121,15 @@
                     android:layout_marginTop="-36dp"
                     app:srcCompat="@drawable/ic_lock" />
 
+                <ImageButton
+                    android:id="@+id/password_toggle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="260dp"
+                    android:layout_marginTop="-20dp"
+                    android:background="@android:color/transparent"
+                    app:srcCompat="@drawable/eye_hidden" />
+
         </LinearLayout>
 
         <ImageView

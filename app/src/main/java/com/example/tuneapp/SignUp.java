@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -12,34 +13,32 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-
-import org.w3c.dom.Text;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class SignUp extends AppCompatActivity {
     public static final String TAG = "TAG";
-    EditText mFullName,mEmail,mPassword,mPhone;
+    EditText mFullName, mEmail, mPassword, mPhone;
     Button mRegisterBtn;
     FirebaseAuth fAuth;
     ProgressBar progressBar;
     FirebaseFirestore fStore;
     String userID;
+    private ImageButton passwordVisibilityToggle;
+    private boolean isPasswordVisible = false;
     private ImageButton buttonBup;
-    private Text registerButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,18 +48,19 @@ public class SignUp extends AppCompatActivity {
         mEmail = findViewById(R.id.editTextTextEmailAddress);
         mPassword = findViewById(R.id.editTextTextPassword);
         mPhone = findViewById(R.id.editTextPhone);
-        mRegisterBtn= findViewById(R.id.buttonReg);
+        mRegisterBtn = findViewById(R.id.buttonReg);
+        buttonBup = findViewById(R.id.buttonBup);
 
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
         progressBar = findViewById(R.id.progBar);
 
-        if(fAuth.getCurrentUser() != null){
-            startActivity(new Intent(getApplicationContext(),MainActivity2.class));
+        if (fAuth.getCurrentUser() != null) {
+            startActivity(new Intent(getApplicationContext(), MainActivity2.class));
             finish();
         }
 
-        mRegisterBtn.setOnClickListener(new View.OnClickListener(){
+        mRegisterBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String email = mEmail.getText().toString();
@@ -116,9 +116,12 @@ public class SignUp extends AppCompatActivity {
                                     user.put("fName",name);
                                     user.put("email",email);
                                     user.put("phone",phoneNumber);
-                                    documentReference.set(user).addOnSuccessListener((OnSuccessListener)(aVoid) -> {
-                                          Log.d(TAG, "onSucccess: usr Profile is created for" + userID);
-                                         }).addOnFailureListener(new OnFailureListener() {
+                                    documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            Log.d(TAG, "onSucccess: usr Profile is created for" + userID);
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
                                         @Override
                                         public void onFailure(@NonNull Exception e) {
                                             Log.d(TAG, "onFailure: " + e.toString());
@@ -154,12 +157,18 @@ public class SignUp extends AppCompatActivity {
                 // Phone number must be exactly 11 digits and start with "09"
                 return phoneNumber.matches("^09\\d{9}$");
             }
-
-
-
-
         });
-        buttonBup = findViewById(R.id.buttonBup);
+
+        // Toggle password visibility
+        passwordVisibilityToggle = findViewById(R.id.passwordVisibilityToggle);
+        passwordVisibilityToggle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                togglePasswordVisibility();
+            }
+        });
+
+        // Navigate to MainActivity
         buttonBup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -168,7 +177,22 @@ public class SignUp extends AppCompatActivity {
         });
     }
 
-    public void openMainActivity(){
+    // Method to toggle password visibility
+    private void togglePasswordVisibility() {
+        isPasswordVisible = !isPasswordVisible;
+        if (isPasswordVisible) {
+            mPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+            passwordVisibilityToggle.setImageResource(R.drawable.eye_visible);
+        } else {
+            mPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            passwordVisibilityToggle.setImageResource(R.drawable.eye_hidden);
+        }
+        // Move cursor to the end of the input field
+        mPassword.setSelection(mPassword.getText().length());
+    }
+
+    // Open MainActivity
+    public void openMainActivity() {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
