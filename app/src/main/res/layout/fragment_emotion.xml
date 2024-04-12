@@ -131,7 +131,7 @@
             android:src="@drawable/share_fear_emoji" />
 
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/buttonFear"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"

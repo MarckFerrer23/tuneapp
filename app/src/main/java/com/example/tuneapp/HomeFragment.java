@@ -3,18 +3,19 @@ package com.example.tuneapp;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.WebSocket;
 import okhttp3.WebSocketListener;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,18 +25,20 @@ public class HomeFragment extends Fragment {
     private TextView emotionText; // TextView for displaying "User is Happy"
     private ImageView emotionImage;
     private final Map<String, Integer> emotionMap = new HashMap<>();
+    private static final String TAG = "HomeFragment";
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         // Initialize views
-        emotionText = view.findViewById(R.id.textView4); // Ensure ID matches
-        emotionImage = view.findViewById(R.id.imageView9); // ImageView for the emoji
+        emotionText = view.findViewById(R.id.textView4);
+        emotionImage = view.findViewById(R.id.imageView9);
 
         // Initialize emotion map with drawable resource IDs
         initializeEmotionMap();
 
+        // Start WebSocket connection
         startWebSocket();
         return view;
     }
@@ -49,33 +52,43 @@ public class HomeFragment extends Fragment {
 
     private void startWebSocket() {
         OkHttpClient client = new OkHttpClient();
-        Request request = new Request.Builder().url("ws://localhost:8080").build(); // Replace with your WebSocket server URL
+        Request request = new Request.Builder().url("wss://192.168.8.100:8080/").build();
         webSocket = client.newWebSocket(request, new WebSocketListener() {
             @Override
             public void onOpen(@NonNull WebSocket webSocket, @NonNull okhttp3.Response response) {
-                // Connection opened
+                getActivity().runOnUiThread(() -> Toast.makeText(getActivity(), "Connected to server", Toast.LENGTH_SHORT).show());
+                Log.d(TAG, "WebSocket opened");
             }
 
             @Override
             public void onMessage(@NonNull WebSocket webSocket, @NonNull String text) {
-                Integer drawableResource = emotionMap.getOrDefault(text, 0);
+                Log.d(TAG, "Received: " + text);
+                Integer drawableResource = emotionMap.getOrDefault(text.toUpperCase(), 0);
                 String userName = getUserNameFromPreferences();
                 getActivity().runOnUiThread(() -> {
                     if (drawableResource != 0) {
                         emotionImage.setImageResource(drawableResource);
-                        emotionText.setText(userName + " is " + text); // Now displays "UserName is HAPPY"
+                        emotionText.setText(userName + " is " + text);
+                    } else {
+                        Log.d(TAG, "Invalid emotion key received: " + text);
                     }
                 });
             }
 
             @Override
             public void onClosing(@NonNull WebSocket webSocket, int code, @NonNull String reason) {
+                getActivity().runOnUiThread(() -> Toast.makeText(getActivity(), "Disconnected: " + reason, Toast.LENGTH_SHORT).show());
+                Log.d(TAG, "Closing: " + reason);
                 webSocket.close(1000, null);
             }
 
             @Override
             public void onFailure(@NonNull WebSocket webSocket, @NonNull Throwable t, okhttp3.Response response) {
-                // Handle connection failure
+                getActivity().runOnUiThread(() -> Toast.makeText(getActivity(), "WebSocket connection failed: " + t.getMessage(), Toast.LENGTH_LONG).show());
+                Log.e(TAG, "Error on WebSocket", t);
+                if (response != null) {
+                    Log.e(TAG, "Failed response: " + response.toString());
+                }
             }
         });
     }
@@ -90,6 +103,7 @@ public class HomeFragment extends Fragment {
         super.onDestroyView();
         if (webSocket != null) {
             webSocket.close(1000, "Fragment Destroyed");
+            Log.d(TAG, "WebSocket closed");
         }
     }
 }
