@@ -11,10 +11,6 @@
         android:icon="@drawable/motions"
         android:title="Emotion" />
 
-    <item
-        android:id="@+id/connect"
-        android:icon="@drawable/connect"
-        android:title="Connect" />
 
     <item
         android:id="@+id/resources"

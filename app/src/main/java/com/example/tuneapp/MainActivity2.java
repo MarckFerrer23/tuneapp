@@ -36,8 +36,6 @@ public class MainActivity2 extends AppCompatActivity {
                 replaceFragment(new HomeFragment());
             } else if (item.getItemId() == R.id.emotions) {
                 replaceFragment(new EmotionFragment());
-            } else if (item.getItemId() == R.id.connect) {
-                replaceFragment(new ConnectFragment());
             } else if (item.getItemId() == R.id.resources) {
                 replaceFragment(new ResourcesFragment());
             } else if (item.getItemId() == R.id.setting) {

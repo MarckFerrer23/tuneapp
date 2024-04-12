@@ -6,19 +6,24 @@
     android:layout_height="match_parent"
     tools:context=".ConnectFragment">
 
-    <!-- TODO: Update blank fragment layout -->
+    <!-- Share Your Emotion Text -->
+
+    <!-- Profile Image -->
+
+    <!-- Happy Emotion Section -->
 
     <TextView
         android:id="@+id/textViewEmotionPage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="92dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="56dp"
         android:text="Share Your Emotion"
         android:textColor="#000000"
         android:textSize="24sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/linearLayout6"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/imageView11"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -26,33 +31,37 @@
         android:id="@+id/imageView11"
         android:layout_width="76dp"
         android:layout_height="77dp"
-        android:layout_marginTop="76dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="36dp"
         android:src="@drawable/profile"
-        app:layout_constraintStart_toStartOf="@+id/linearLayout5"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         android:id="@+id/linearLayout5"
-        android:layout_width="146dp"
-        android:layout_height="210dp"
-        android:layout_marginStart="52dp"
-        android:layout_marginTop="28dp"
+        android:layout_width="160dp"
+        android:layout_height="184dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
         android:orientation="vertical"
-        app:layout_constraintEnd_toStartOf="@+id/linearLayout6"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintBottom_toTopOf="@id/linearLayout7"
+        app:layout_constraintEnd_toStartOf="@id/linearLayout6"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView11">
+        app:layout_constraintTop_toBottomOf="@id/imageView11">
 
         <ImageView
             android:id="@+id/HappyImage"
-            android:layout_width="140dp"
-            android:layout_height="140dp"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:adjustViewBounds="true"
+            android:scaleType="centerInside"
             android:src="@drawable/share_happy_emoji" />
 
         <Button
             android:id="@+id/buttonHappy"
-            android:layout_width="140dp"
-            android:layout_height="50dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:backgroundTint="#FDFD96"
             android:text="HAPPY"
@@ -60,62 +69,71 @@
             android:textStyle="bold"
             app:cornerRadius="4dp"
             app:strokeColor="#0E0E0E"
-            app:strokeWidth="1dp" />
+            app:strokeWidth="1dp"/>
     </LinearLayout>
 
+    <!-- Sad Emotion Section -->
     <LinearLayout
         android:id="@+id/linearLayout6"
-        android:layout_width="141dp"
-        android:layout_height="209dp"
-        android:layout_marginTop="56dp"
-        android:layout_marginEnd="52dp"
+        android:layout_width="160dp"
+        android:layout_height="184dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
         android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@id/linearLayout8"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewEmotionPage">
+        app:layout_constraintStart_toEndOf="@id/linearLayout5"
+        app:layout_constraintTop_toBottomOf="@id/imageView11">
 
         <ImageView
             android:id="@+id/SadImage"
             android:layout_width="match_parent"
-            android:layout_height="139dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:adjustViewBounds="true"
+            android:scaleType="centerInside"
             android:src="@drawable/share_sad_emoji" />
 
         <Button
             android:id="@+id/buttonSad"
-            android:layout_width="140dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="13dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
             android:backgroundTint="#3A9BDC"
             android:text="SAD"
             android:textColor="@color/black"
             android:textStyle="bold"
             app:cornerRadius="4dp"
             app:strokeColor="#0E0E0E"
-            app:strokeWidth="1dp" />
+            app:strokeWidth="1dp"/>
     </LinearLayout>
 
+    <!-- Fear Emotion Section -->
     <LinearLayout
         android:id="@+id/linearLayout7"
-        android:layout_width="148dp"
-        android:layout_height="216dp"
-        android:layout_marginStart="52dp"
+        android:layout_width="160dp"
+        android:layout_height="184dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/linearLayout5"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintEnd_toStartOf="@id/linearLayout8"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout5"
-        app:layout_constraintVertical_bias="0.153">
+        app:layout_constraintTop_toBottomOf="@id/linearLayout5">
 
         <ImageView
             android:id="@+id/FearImage"
-            android:layout_width="140dp"
-            android:layout_height="140dp"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:adjustViewBounds="true"
+            android:scaleType="centerInside"
             android:src="@drawable/share_fear_emoji" />
 
         <Button
             android:id="@+id/button3"
-            android:layout_width="140dp"
-            android:layout_height="50dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:backgroundTint="#D79CFC"
             android:text="FEAR"
@@ -123,32 +141,35 @@
             android:textStyle="bold"
             app:cornerRadius="4dp"
             app:strokeColor="#0E0E0E"
-            app:strokeWidth="1dp" />
+            app:strokeWidth="1dp"/>
     </LinearLayout>
 
+    <!-- Angry Emotion Section -->
     <LinearLayout
         android:id="@+id/linearLayout8"
-        android:layout_width="140dp"
-        android:layout_height="210dp"
-        android:layout_marginEnd="52dp"
+        android:layout_width="160dp"
+        android:layout_height="184dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/linearLayout6"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout6"
-        app:layout_constraintVertical_bias="0.157">
+        app:layout_constraintStart_toEndOf="@id/linearLayout7"
+        app:layout_constraintTop_toBottomOf="@id/linearLayout6">
 
         <ImageView
             android:id="@+id/AngryImage"
-            android:layout_width="140dp"
-            android:layout_height="140dp"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:adjustViewBounds="true"
+            android:scaleType="centerInside"
             android:src="@drawable/share_angry_emoji" />
 
         <Button
             android:id="@+id/buttonAngry"
-            android:layout_width="140dp"
-            android:layout_height="50dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:backgroundTint="#FD9696"
             android:text="ANGRY"
@@ -156,7 +177,8 @@
             android:textStyle="bold"
             app:cornerRadius="4dp"
             app:strokeColor="#0E0E0E"
-            app:strokeWidth="1dp" />
+            app:strokeWidth="1dp"
+            />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
