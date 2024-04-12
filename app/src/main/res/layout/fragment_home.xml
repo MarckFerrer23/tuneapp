@@ -51,7 +51,7 @@
                         android:id="@+id/imageView9"
                         android:layout_width="248dp"
                         android:layout_height="244dp"
-                        android:src="@drawable/happy_emoji"
+                        android:src="@drawable/share_happy_emoji"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintDimensionRatio="1:1"
                         app:layout_constraintEnd_toEndOf="parent"

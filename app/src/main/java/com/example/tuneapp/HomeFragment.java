@@ -1,65 +1,95 @@
 package com.example.tuneapp;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.WebSocket;
+import okhttp3.WebSocketListener;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link HomeFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.HashMap;
+import java.util.Map;
+
 public class HomeFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private WebSocket webSocket;
+    private TextView emotionText; // TextView for displaying "User is Happy"
+    private ImageView emotionImage;
+    private final Map<String, Integer> emotionMap = new HashMap<>();
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-    public HomeFragment() {
-        // Required empty public constructor
+        // Initialize views
+        emotionText = view.findViewById(R.id.textView4); // Ensure ID matches
+        emotionImage = view.findViewById(R.id.imageView9); // ImageView for the emoji
+
+        // Initialize emotion map with drawable resource IDs
+        initializeEmotionMap();
+
+        startWebSocket();
+        return view;
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment HomeFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static HomeFragment newInstance(String param1, String param2) {
-        HomeFragment fragment = new HomeFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+    private void initializeEmotionMap() {
+        emotionMap.put("HAPPY", R.drawable.share_happy_emoji);
+        emotionMap.put("SAD", R.drawable.share_sad_emoji);
+        emotionMap.put("ANGRY", R.drawable.share_angry_emoji);
+        emotionMap.put("FEAR", R.drawable.share_fear_emoji);
+    }
+
+    private void startWebSocket() {
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder().url("ws://localhost:8080").build(); // Replace with your WebSocket server URL
+        webSocket = client.newWebSocket(request, new WebSocketListener() {
+            @Override
+            public void onOpen(@NonNull WebSocket webSocket, @NonNull okhttp3.Response response) {
+                // Connection opened
+            }
+
+            @Override
+            public void onMessage(@NonNull WebSocket webSocket, @NonNull String text) {
+                Integer drawableResource = emotionMap.getOrDefault(text, 0);
+                String userName = getUserNameFromPreferences();
+                getActivity().runOnUiThread(() -> {
+                    if (drawableResource != 0) {
+                        emotionImage.setImageResource(drawableResource);
+                        emotionText.setText(userName + " is " + text); // Now displays "UserName is HAPPY"
+                    }
+                });
+            }
+
+            @Override
+            public void onClosing(@NonNull WebSocket webSocket, int code, @NonNull String reason) {
+                webSocket.close(1000, null);
+            }
+
+            @Override
+            public void onFailure(@NonNull WebSocket webSocket, @NonNull Throwable t, okhttp3.Response response) {
+                // Handle connection failure
+            }
+        });
+    }
+
+    private String getUserNameFromPreferences() {
+        SharedPreferences prefs = getActivity().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+        return prefs.getString("UserName", "User"); // Default to "User" if not found
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (webSocket != null) {
+            webSocket.close(1000, "Fragment Destroyed");
         }
     }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false);
-    }
-
 }

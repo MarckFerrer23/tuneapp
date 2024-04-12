@@ -1,64 +1,82 @@
 package com.example.tuneapp;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.WebSocket;
+import okhttp3.WebSocketListener;
+import org.json.JSONObject;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link EmotionFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class EmotionFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public EmotionFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment EmotionFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static EmotionFragment newInstance(String param1, String param2) {
-        EmotionFragment fragment = new EmotionFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+    private WebSocket webSocket;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_emotion, container, false);
+
+        // Setup WebSocket connection
+        startWebSocket();
+
+        // Initialize emotion buttons
+        initializeEmotionButtons(view);
+
+        return view;
+    }
+
+    private void startWebSocket() {
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder().url("ws://your.server.com").build(); // Replace with your WebSocket server URL
+        webSocket = client.newWebSocket(request, new WebSocketListener() {
+            @Override
+            public void onOpen(@NonNull WebSocket webSocket, @NonNull okhttp3.Response response) {
+                // Connection opened
+            }
+
+            // Implement other necessary callback methods...
+        });
+    }
+
+    private void initializeEmotionButtons(View view) {
+        // Example for HAPPY button
+        Button buttonHappy = view.findViewById(R.id.buttonHappy);
+        buttonHappy.setOnClickListener(v -> sendEmotion("HAPPY"));
+
+        // Repeat for other emotions: SAD, ANGRY, FEAR...
+        Button buttonSad = view.findViewById(R.id.buttonSad);
+        buttonSad.setOnClickListener(v -> sendEmotion("SAD"));
+
+        Button buttonAngry = view.findViewById(R.id.buttonAngry);
+
+        buttonAngry.setOnClickListener(v -> sendEmotion("ANGRY"));
+
+        Button buttonFear = view.findViewById(R.id.buttonFear); // Assuming this is the FEAR button
+        buttonFear.setOnClickListener(v -> sendEmotion("FEAR"));
+    }
+
+    private void sendEmotion(String emotion) {
+        try {
+            JSONObject message = new JSONObject();
+            message.put("emotion", emotion);
+            if (webSocket != null) {
+                webSocket.send(message.toString());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_emotion, container, false);
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (webSocket != null) {
+            webSocket.close(1000, "Fragment Destroyed");
+        }
     }
 }
