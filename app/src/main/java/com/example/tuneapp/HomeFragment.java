@@ -1,7 +1,5 @@
 package com.example.tuneapp;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +10,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+
+import java.io.InputStream;
+import java.security.KeyStore;
+import java.security.cert.Certificate;
+import java.security.cert.CertificateFactory;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.TrustManagerFactory;
+import javax.net.ssl.X509TrustManager;
+
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.WebSocket;
@@ -22,7 +31,7 @@ import java.util.Map;
 public class HomeFragment extends Fragment {
 
     private WebSocket webSocket;
-    private TextView emotionText; // TextView for displaying "User is Happy"
+    private TextView emotionText;
     private ImageView emotionImage;
     private final Map<String, Integer> emotionMap = new HashMap<>();
     private static final String TAG = "HomeFragment";
@@ -30,15 +39,9 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-
-        // Initialize views
         emotionText = view.findViewById(R.id.textView4);
         emotionImage = view.findViewById(R.id.imageView9);
-
-        // Initialize emotion map with drawable resource IDs
         initializeEmotionMap();
-
-        // Start WebSocket connection
         startWebSocket();
         return view;
     }
@@ -51,8 +54,12 @@ public class HomeFragment extends Fragment {
     }
 
     private void startWebSocket() {
-        OkHttpClient client = new OkHttpClient();
-        Request request = new Request.Builder().url("wss://192.168.8.100:8080/").build();
+        OkHttpClient client = new OkHttpClient.Builder()
+                .sslSocketFactory(getSSLSocketFactory(), getTrustManager())
+                .hostnameVerifier((hostname, session) -> true)  // Trust all hostnames for this example, not recommended for production
+                .build();
+
+        Request request = new Request.Builder().url("wss://192.168.55.106:8080").build();
         webSocket = client.newWebSocket(request, new WebSocketListener() {
             @Override
             public void onOpen(@NonNull WebSocket webSocket, @NonNull okhttp3.Response response) {
@@ -63,47 +70,73 @@ public class HomeFragment extends Fragment {
             @Override
             public void onMessage(@NonNull WebSocket webSocket, @NonNull String text) {
                 Log.d(TAG, "Received: " + text);
-                Integer drawableResource = emotionMap.getOrDefault(text.toUpperCase(), 0);
-                String userName = getUserNameFromPreferences();
-                getActivity().runOnUiThread(() -> {
-                    if (drawableResource != 0) {
-                        emotionImage.setImageResource(drawableResource);
-                        emotionText.setText(userName + " is " + text);
-                    } else {
-                        Log.d(TAG, "Invalid emotion key received: " + text);
-                    }
-                });
+                handleReceivedText(text);
             }
 
             @Override
             public void onClosing(@NonNull WebSocket webSocket, int code, @NonNull String reason) {
                 getActivity().runOnUiThread(() -> Toast.makeText(getActivity(), "Disconnected: " + reason, Toast.LENGTH_SHORT).show());
-                Log.d(TAG, "Closing: " + reason);
                 webSocket.close(1000, null);
+                Log.d(TAG, "Closing: " + reason);
             }
 
             @Override
             public void onFailure(@NonNull WebSocket webSocket, @NonNull Throwable t, okhttp3.Response response) {
                 getActivity().runOnUiThread(() -> Toast.makeText(getActivity(), "WebSocket connection failed: " + t.getMessage(), Toast.LENGTH_LONG).show());
                 Log.e(TAG, "Error on WebSocket", t);
-                if (response != null) {
-                    Log.e(TAG, "Failed response: " + response.toString());
-                }
             }
         });
     }
 
-    private String getUserNameFromPreferences() {
-        SharedPreferences prefs = getActivity().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
-        return prefs.getString("UserName", "User"); // Default to "User" if not found
+    private void handleReceivedText(String text) {
+        String formattedText = text.trim().toUpperCase();
+        Integer drawableResource = emotionMap.get(formattedText);
+        getActivity().runOnUiThread(() -> {
+            if (drawableResource != null) {
+                emotionImage.setImageResource(drawableResource);
+                emotionText.setText("User is " + formattedText);
+            } else {
+                Log.d(TAG, "Unhandled emotion key: " + formattedText);
+                emotionImage.setImageResource(R.drawable.share_fear_emoji);  // Ensure you have a default image resource
+                emotionText.setText("No emotion detected");
+            }
+        });
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        if (webSocket != null) {
-            webSocket.close(1000, "Fragment Destroyed");
-            Log.d(TAG, "WebSocket closed");
+    private SSLSocketFactory getSSLSocketFactory() {
+        try {
+            CertificateFactory cf = CertificateFactory.getInstance("X.509");
+            InputStream cert = getResources().openRawResource(R.raw.certificate);  // Ensure your certificate is in res/raw
+            Certificate ca = cf.generateCertificate(cert);
+            cert.close();
+
+            String keyStoreType = KeyStore.getDefaultType();
+            KeyStore keyStore = KeyStore.getInstance(keyStoreType);
+            keyStore.load(null, null);
+            keyStore.setCertificateEntry("ca", ca);
+
+            TrustManagerFactory tmf = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
+            tmf.init(keyStore);
+
+            SSLContext context = SSLContext.getInstance("TLS");
+            context.init(null, tmf.getTrustManagers(), null);
+            return context.getSocketFactory();
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to create SSLSocketFactory", e);
+        }
+    }
+
+    private X509TrustManager getTrustManager() {
+        try {
+            TrustManagerFactory tmf = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
+            tmf.init((KeyStore) null);
+            TrustManager[] trustManagers = tmf.getTrustManagers();
+            if (trustManagers.length != 1 || !(trustManagers[0] instanceof X509TrustManager)) {
+                throw new IllegalStateException("Unexpected default trust managers:" + java.util.Arrays.toString(trustManagers));
+            }
+            return (X509TrustManager) trustManagers[0];
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to create Trust Manager", e);
         }
     }
 }
