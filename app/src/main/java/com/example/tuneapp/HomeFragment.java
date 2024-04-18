@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
@@ -31,18 +32,22 @@ import java.util.Map;
 public class HomeFragment extends Fragment {
 
     private WebSocket webSocket;
-    private TextView emotionText;
-    private ImageView emotionImage;
+    private TextView emotionText;  // Displays current emotion status
+    private ImageView emotionImage; // Shows emotion image
     private final Map<String, Integer> emotionMap = new HashMap<>();
     private static final String TAG = "HomeFragment";
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-        emotionText = view.findViewById(R.id.textView4);
+
+        emotionText = view.findViewById(R.id.textViewEmotion);
         emotionImage = view.findViewById(R.id.imageView9);
+
         initializeEmotionMap();
+        initializeEmotionButtons(view);
         startWebSocket();
+
         return view;
     }
 
@@ -53,18 +58,39 @@ public class HomeFragment extends Fragment {
         emotionMap.put("FEAR", R.drawable.share_fear_emoji);
     }
 
+    private void initializeEmotionButtons(View view) {
+        Button buttonHappy = view.findViewById(R.id.buttonHappy);
+        buttonHappy.setOnClickListener(v -> sendEmotion("HAPPY"));
+
+        Button buttonSad = view.findViewById(R.id.buttonSad);
+        buttonSad.setOnClickListener(v -> sendEmotion("SAD"));
+
+        Button buttonAngry = view.findViewById(R.id.buttonAngry);
+        buttonAngry.setOnClickListener(v -> sendEmotion("ANGRY"));
+
+        Button buttonFear = view.findViewById(R.id.buttonFear);
+        buttonFear.setOnClickListener(v -> sendEmotion("FEAR"));
+    }
+
+    private void sendEmotion(String emotion) {
+        if (webSocket != null) {
+            webSocket.send(emotion);
+        } else {
+            Toast.makeText(getActivity(), "WebSocket is not connected.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     private void startWebSocket() {
         OkHttpClient client = new OkHttpClient.Builder()
                 .sslSocketFactory(getSSLSocketFactory(), getTrustManager())
-                .hostnameVerifier((hostname, session) -> true)  // Trust all hostnames for this example, not recommended for production
+                .hostnameVerifier((hostname, session) -> true) // Trust all hostnames
                 .build();
 
-        Request request = new Request.Builder().url("wss://192.168.55.106:8080").build();
+        Request request = new Request.Builder().url("wss://192.168.55.108:8080").build();
         webSocket = client.newWebSocket(request, new WebSocketListener() {
             @Override
             public void onOpen(@NonNull WebSocket webSocket, @NonNull okhttp3.Response response) {
                 getActivity().runOnUiThread(() -> Toast.makeText(getActivity(), "Connected to server", Toast.LENGTH_SHORT).show());
-                Log.d(TAG, "WebSocket opened");
             }
 
             @Override
@@ -77,13 +103,11 @@ public class HomeFragment extends Fragment {
             public void onClosing(@NonNull WebSocket webSocket, int code, @NonNull String reason) {
                 getActivity().runOnUiThread(() -> Toast.makeText(getActivity(), "Disconnected: " + reason, Toast.LENGTH_SHORT).show());
                 webSocket.close(1000, null);
-                Log.d(TAG, "Closing: " + reason);
             }
 
             @Override
             public void onFailure(@NonNull WebSocket webSocket, @NonNull Throwable t, okhttp3.Response response) {
                 getActivity().runOnUiThread(() -> Toast.makeText(getActivity(), "WebSocket connection failed: " + t.getMessage(), Toast.LENGTH_LONG).show());
-                Log.e(TAG, "Error on WebSocket", t);
             }
         });
     }
@@ -97,7 +121,7 @@ public class HomeFragment extends Fragment {
                 emotionText.setText("User is " + formattedText);
             } else {
                 Log.d(TAG, "Unhandled emotion key: " + formattedText);
-                emotionImage.setImageResource(R.drawable.share_fear_emoji);  // Ensure you have a default image resource
+                emotionImage.setImageResource(R.drawable.share_fear_emoji);
                 emotionText.setText("No emotion detected");
             }
         });
@@ -106,7 +130,7 @@ public class HomeFragment extends Fragment {
     private SSLSocketFactory getSSLSocketFactory() {
         try {
             CertificateFactory cf = CertificateFactory.getInstance("X.509");
-            InputStream cert = getResources().openRawResource(R.raw.certificate);  // Ensure your certificate is in res/raw
+            InputStream cert = getResources().openRawResource(R.raw.certificate);
             Certificate ca = cf.generateCertificate(cert);
             cert.close();
 
