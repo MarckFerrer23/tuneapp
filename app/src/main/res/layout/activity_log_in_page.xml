@@ -5,7 +5,7 @@
     android:id="@+id/relativeLayout3"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#B3CEE5"
+    android:background="@drawable/family_background"
     android:contentDescription="Insert your Email"
     app:layoutDescription="@xml/activity_log_in_page_scene2"
     tools:context=".MainActivity">
@@ -131,17 +131,6 @@
                     app:srcCompat="@drawable/eye_hidden" />
 
         </LinearLayout>
-
-        <ImageView
-            android:id="@+id/imageView6"
-            android:layout_width="wrap_content"
-            android:layout_height="261dp"
-            android:layout_marginBottom="-9dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/buttonLog"
-            app:layout_constraintHorizontal_bias="0.495"
-            app:layout_constraintStart_toStartOf="@+id/buttonLog"
-            app:srcCompat="@drawable/familypic" />
 
         <ProgressBar
             android:id="@+id/progressBar"

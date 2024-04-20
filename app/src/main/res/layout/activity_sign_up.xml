@@ -5,7 +5,7 @@
     android:id="@+id/relativeLayout3"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#B3CEE5"
+    android:background="#BFE9EF"
     app:layoutDescription="@xml/activity_log_in_page_scene2"
     tools:context=".MainActivity" >
 
@@ -60,12 +60,10 @@
         android:textSize="18sp"
         android:textStyle="bold"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/imageView7"
         app:layout_constraintEnd_toEndOf="@+id/linearLayout"
         app:layout_constraintHorizontal_bias="0.166"
         app:layout_constraintStart_toStartOf="@+id/linearLayout"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -205,7 +203,6 @@
         android:layout_marginBottom="-8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/linearLayout"
-        app:layout_constraintHorizontal_bias="0.654"
         app:layout_constraintStart_toStartOf="@+id/linearLayout"
         app:srcCompat="@drawable/familypic" />
 
@@ -215,11 +212,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView7"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonReg"
-        app:layout_constraintVertical_bias="0.314" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonReg" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
