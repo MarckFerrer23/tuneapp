@@ -17,107 +17,99 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="48dp"/>
-
-    <!-- Default Image -->
-
-    <!-- Default Text -->
-    <!-- Emotion Sending Section -->
+        android:layout_marginTop="24dp"/>
 
     <ImageView
         android:id="@+id/imageView9"
         android:layout_width="200dp"
         android:layout_height="200dp"
-        android:layout_marginTop="40dp"
         android:src="@drawable/share_happy_emoji"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewEmotionLabel"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewEmotionLabel" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"/>
 
     <TextView
         android:id="@+id/textViewEmotion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="User is Happy"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@+id/imageView9"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="16dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"/>
+
+    <!-- Emotion Sending Section -->
+    <TextView
+        android:id="@+id/textViewSuggestions"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="Suggestions: \n1. Activity One\n2. Activity Two\n3. Activity Three"
+        android:textSize="16sp"
+        android:textColor="#000000"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewEmotion" />
 
     <TextView
         android:id="@+id/textViewSendEmotion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="304dp"
         android:text="Share Your Emotion"
         android:textSize="24sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.472"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textViewEmotion" />
-
-    <LinearLayout
-        android:id="@+id/linearLayoutButtons"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="4"
-        app:layout_constraintTop_toBottomOf="@id/textViewSendEmotion"
+        app:layout_constraintTop_toBottomOf="@+id/textViewSuggestions"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp">
+        android:layout_marginTop="32dp"/>
 
-    </LinearLayout>
-
+    <!-- Emotion Buttons -->
     <Button
         android:id="@+id/buttonHappy"
-        android:layout_width="102dp"
-        android:layout_height="50dp"
-        android:layout_marginEnd="64dp"
-        android:layout_marginBottom="88dp"
-        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:text="HAPPY"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/buttonAngry"
+        app:layout_constraintTop_toBottomOf="@+id/textViewSendEmotion"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/buttonSad"
-        app:layout_constraintHorizontal_bias="0.886"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_weight="1"
+        android:layout_marginTop="16dp"/>
 
     <Button
         android:id="@+id/buttonSad"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="104dp"
-        android:layout_marginBottom="92dp"
-        android:layout_weight="1"
         android:text="SAD"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/buttonFear"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewSendEmotion"
+        app:layout_constraintStart_toEndOf="@+id/buttonHappy"
+        app:layout_constraintEnd_toStartOf="@+id/buttonAngry"
+        app:layout_constraintHorizontal_weight="1"
+        android:layout_marginTop="16dp"/>
 
     <Button
         android:id="@+id/buttonAngry"
-        android:layout_width="116dp"
-        android:layout_height="44dp"
-        android:layout_marginEnd="64dp"
-        android:layout_marginBottom="108dp"
-        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:text="ANGRY"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewSendEmotion"
+        app:layout_constraintStart_toEndOf="@+id/buttonSad"
         app:layout_constraintEnd_toStartOf="@+id/buttonFear"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_weight="1"
+        android:layout_marginTop="16dp"/>
 
     <Button
         android:id="@+id/buttonFear"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="104dp"
-        android:layout_marginBottom="104dp"
-        android:layout_weight="1"
         android:text="FEAR"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewSendEmotion"
+        app:layout_constraintStart_toEndOf="@+id/buttonAngry"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_weight="1"
+        android:layout_marginTop="16dp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
