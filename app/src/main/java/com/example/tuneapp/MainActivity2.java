@@ -34,8 +34,6 @@ public class MainActivity2 extends AppCompatActivity {
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
             if (item.getItemId() == R.id.home) {
                 replaceFragment(new HomeFragment());
-            } else if (item.getItemId() == R.id.emotions) {
-                replaceFragment(new EmotionFragment());
             } else if (item.getItemId() == R.id.resources) {
                 replaceFragment(new ResourcesFragment());
             } else if (item.getItemId() == R.id.setting) {

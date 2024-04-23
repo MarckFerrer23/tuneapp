@@ -62,6 +62,7 @@
             android:text="User is Happy"
             android:textColor="#000000"
             android:textSize="18sp"
+
             android:fontFamily="@font/poppins_semibold"
             app:layout_constraintEnd_toEndOf="@+id/cardView4"
             app:layout_constraintHorizontal_bias="0.508"
@@ -91,16 +92,16 @@
 
                 <TextView
                     android:id="@+id/textViewSendEmotion"
-                    android:layout_width="196dp"
-                    android:layout_height="32dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_width="287dp"
+                    android:layout_height="44dp"
+                    android:layout_marginTop="24dp"
                     android:fontFamily="@font/poppins_semibold"
                     android:gravity="center"
                     android:text="Share your emotion"
-                    android:textColor="#000000"
-                    android:textSize="17sp"
+                    android:textColor="#6B9B9F"
+                    android:textSize="23sp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.103"
+                    app:layout_constraintHorizontal_bias="0.587"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -222,20 +223,41 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
 
-        <TextView
-            android:id="@+id/textViewSuggestions"
-            android:layout_width="337dp"
-            android:layout_height="90dp"
-            android:layout_marginBottom="4dp"
-            android:text="Suggestions: \n1. Activity One\n2. Activity Two\n3. Activity Three"
-            android:textColor="#000000"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="0.508"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cardView"
-            app:layout_constraintVertical_bias="1.0" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardViewSuggestions"
+            android:layout_width="366dp"
+            android:layout_height="268dp"
+            android:layout_marginTop="20dp"
+            app:cardCornerRadius="19dp"
+            app:layout_constraintEnd_toEndOf="@+id/cardView"
+            app:layout_constraintStart_toStartOf="@+id/cardView"
+            app:layout_constraintTop_toBottomOf="@+id/cardView">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="359dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="10dp"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/textViewSuggestions"
+                    android:layout_width="330dp"
+                    android:layout_height="234dp"
+                    android:layout_marginBottom="4dp"
+                    android:fontFamily="@font/poppins_semibold"
+                    android:text="Suggestions: \n\n\t1. Activity One\n\t2. Activity Two\n\t3. Activity Three"
+                    android:textColor="#174C4F"
+                    android:textSize="17sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
 
         <TextView
             android:id="@+id/textView3"

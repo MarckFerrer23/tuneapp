@@ -3,22 +3,19 @@
 
     <item
         android:id="@+id/home"
-        android:icon="@drawable/baseline_home_24"
-        android:title="Home" />
-
-    <item
-        android:id="@+id/emotions"
-        android:icon="@drawable/motions"
-        android:title="Emotion" />
+        android:icon="@drawable/home"
+        android:title=""
+        />
 
 
     <item
         android:id="@+id/resources"
-        android:icon="@drawable/resources"
-        android:title="Resources" />
+        android:icon="@drawable/resnav"
+        android:title=""
+        />
 
     <item
         android:id="@+id/setting"
-        android:icon="@drawable/baseline_settings_24"
-        android:title="Setting" />
+        android:icon="@drawable/accnav"
+        android:title="" />
 </menu>
