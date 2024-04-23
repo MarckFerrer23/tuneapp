@@ -11,6 +11,12 @@ import android.widget.Toast;
 import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.appcompat.app.AlertDialog;
+import android.widget.EditText;
+import android.text.InputType;
+
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.InputStream;
 import java.security.KeyStore;
@@ -39,8 +45,10 @@ public class HomeFragment extends Fragment {
     private WebSocket webSocket;
     private TextView emotionText, suggestionsText;
     private ImageView emotionImage;
+    private DatabaseReference databaseReference; // Firebase database reference
     private final Map<String, Integer> emotionMap = new HashMap<>();
     private final Map<String, List<String>> emotionToActivities = new HashMap<>();
+    private List<String> currentActivities = new ArrayList<>();
     private static final String TAG = "HomeFragment";
 
     @Override
@@ -49,6 +57,7 @@ public class HomeFragment extends Fragment {
         emotionText = view.findViewById(R.id.textViewEmotion);
         suggestionsText = view.findViewById(R.id.textViewSuggestions);
         emotionImage = view.findViewById(R.id.imageView9);
+        databaseReference = FirebaseDatabase.getInstance().getReference("ActivityRatings");
 
         initializeEmotionMap();
         initializeActivityMap();
@@ -149,7 +158,7 @@ public class HomeFragment extends Fragment {
                 .hostnameVerifier((hostname, session) -> true)
                 .build();
 
-        Request request = new Request.Builder().url("wss://192.168.55.108:8080").build();
+        Request request = new Request.Builder().url("wss://192.168.55.100:8080").build();
         webSocket = client.newWebSocket(request, new WebSocketListener() {
             @Override
             public void onOpen(@NonNull WebSocket webSocket, @NonNull okhttp3.Response response) {
@@ -182,15 +191,49 @@ public class HomeFragment extends Fragment {
             if (drawableResource != null) {
                 emotionImage.setImageResource(drawableResource);
                 emotionText.setText("User is " + formattedText);
-                List<String> activities = selectRandomActivities(formattedText);
-                suggestionsText.setText("Activities: " + String.join(", ", activities));
+                currentActivities = selectRandomActivities(formattedText);
+                suggestionsText.setText("Activities: " + String.join(", ", currentActivities));
+                showRatingDialog(currentActivities);
             } else {
                 Log.d(TAG, "Unhandled emotion key: " + formattedText);
-                emotionImage.setImageResource(R.drawable.share_fear_emoji);
-                emotionText.setText("No emotion detected");
-                suggestionsText.setText("Activities: No suggestions available");
             }
         });
+    }
+
+    private void showRatingDialog(List<String> activities) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Rate the Activities");
+
+        final EditText input = new EditText(getActivity());
+        input.setInputType(InputType.TYPE_CLASS_NUMBER);
+        builder.setView(input);
+
+        builder.setPositiveButton("Submit", (dialog, which) -> {
+            try {
+                int rating = Integer.parseInt(input.getText().toString());
+                for (String activity : activities) {
+                    String key = activity.replaceAll("[^a-zA-Z0-9 ]", "").toLowerCase().replace(" ", "_");
+                    DatabaseReference ratingsRef = databaseReference.child(key);
+                    Log.d(TAG, "Attempting to save rating to: " + ratingsRef.getPath());
+
+                    ratingsRef.push().setValue(rating)
+                            .addOnSuccessListener(aVoid -> {
+                                Log.d(TAG, "Successfully saved rating for " + key);
+                                Toast.makeText(getActivity(), "Rating submitted for " + activity, Toast.LENGTH_SHORT).show();
+                            })
+                            .addOnFailureListener(e -> {
+                                Log.e(TAG, "Failed to save rating for " + key, e);
+                                Toast.makeText(getActivity(), "Failed to submit rating for " + activity, Toast.LENGTH_SHORT).show();
+                            });
+                }
+            } catch (NumberFormatException nfe) {
+                Toast.makeText(getActivity(), "Invalid input! Please enter a valid number.", Toast.LENGTH_SHORT).show();
+                Log.e(TAG, "NumberFormatException: Invalid input provided", nfe);
+            }
+        });
+
+        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
+        builder.show();
     }
 
     private List<String> selectRandomActivities(String emotion) {
