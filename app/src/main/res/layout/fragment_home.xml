@@ -52,52 +52,77 @@
                 app:layout_constraintTop_toBottomOf="@id/textViewEmotionLabel" />
         </androidx.cardview.widget.CardView>
 
-        <TextView
-            android:id="@+id/textViewEmotion"
-            android:layout_width="97dp"
-            android:layout_height="30dp"
-            android:layout_marginTop="24dp"
-            android:fontFamily="@font/poppins_semibold"
-            android:gravity="center"
-            android:text="is Happy"
-            android:textColor="#000000"
-            android:textSize="18sp"
+
+        <LinearLayout
+            android:id="@+id/linearLayout3"
+            android:layout_width="243dp"
+            android:layout_height="53dp"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="@+id/cardView4"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/textView5"
-            app:layout_constraintTop_toBottomOf="@+id/cardView4" />
-
-        <TextView
-            android:id="@+id/textView5"
-            android:layout_width="111dp"
-            android:layout_height="31dp"
-            android:layout_marginStart="-13dp"
-            android:fontFamily="@font/poppins_semibold"
-            android:gravity="center"
-            android:text="TextView"
-            android:textAlignment="viewEnd"
-            android:textColor="#000000"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="@+id/textViewEmotion"
+            app:layout_constraintHorizontal_bias="0.514"
             app:layout_constraintStart_toStartOf="@+id/cardView4"
-            app:layout_constraintTop_toTopOf="@+id/textViewEmotion"
-            app:layout_constraintVertical_bias="0.0" />
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardView"
-            android:layout_width="353dp"
-            android:layout_height="532dp"
-            android:layout_marginTop="36dp"
-            android:background="#FFFFFF"
-            app:cardCornerRadius="19dp"
-            app:layout_constraintEnd_toEndOf="@+id/textViewEmotion"
-            app:layout_constraintStart_toStartOf="@+id/textView5"
-            app:layout_constraintTop_toBottomOf="@+id/textViewEmotion">
+            app:layout_constraintTop_toBottomOf="@+id/cardView4">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="53dp">
+
+                <TextView
+                    android:id="@+id/textViewEmotion"
+                    android:layout_width="82dp"
+                    android:layout_height="26dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="28dp"
+                    android:layout_marginBottom="2dp"
+                    android:fontFamily="@font/poppins_semibold"
+                    android:gravity="center"
+                    android:text="is Happy"
+                    android:textAlignment="viewStart"
+                    android:textColor="#000000"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.282"
+                    app:layout_constraintStart_toEndOf="@+id/patientName"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.4" />
+
+                <TextView
+                    android:id="@+id/patientName"
+                    android:layout_width="66dp"
+                    android:layout_height="28dp"
+                    android:layout_marginStart="28dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="2dp"
+                    android:fontFamily="@font/poppins_semibold"
+                    android:gravity="center"
+                    android:text=""
+                    android:textAlignment="viewEnd"
+                    android:textColor="#000000"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.434" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView"
+            android:layout_width="324dp"
+            android:layout_height="470dp"
+            android:layout_marginTop="20dp"
+            android:background="#FFFFFF"
+            app:cardCornerRadius="19dp"
+            app:layout_constraintEnd_toEndOf="@+id/cardView4"
+            app:layout_constraintHorizontal_bias="0.51"
+            app:layout_constraintStart_toStartOf="@+id/cardView4"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="453dp">
 
                 <TextView
                     android:id="@+id/textViewSendEmotion"
@@ -118,6 +143,8 @@
                     android:id="@+id/buttonHappy"
                     android:layout_width="110dp"
                     android:layout_height="44dp"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginEnd="2dp"
                     android:layout_marginBottom="24dp"
                     android:backgroundTint="#FDFD96"
                     android:fontFamily="@font/poppins_semibold"
@@ -136,6 +163,8 @@
                     android:id="@+id/buttonAngry"
                     android:layout_width="110dp"
                     android:layout_height="44dp"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginEnd="2dp"
                     android:layout_marginBottom="36dp"
                     android:backgroundTint="#FD9696"
                     android:fontFamily="@font/poppins_semibold"
@@ -154,6 +183,8 @@
                     android:id="@+id/buttonSad"
                     android:layout_width="110dp"
                     android:layout_height="44dp"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginEnd="2dp"
                     android:layout_marginBottom="24dp"
                     android:backgroundTint="#3A9BDC"
                     android:fontFamily="@font/poppins_semibold"
@@ -163,7 +194,7 @@
                     app:cornerRadius="4dp"
                     app:layout_constraintBottom_toTopOf="@+id/imageView20"
                     app:layout_constraintEnd_toEndOf="@+id/imageView19"
-                    app:layout_constraintHorizontal_bias="0.666"
+                    app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="@+id/imageView19"
                     app:strokeColor="#000000"
                     app:strokeWidth="1dp" />
@@ -172,6 +203,8 @@
                     android:id="@+id/buttonFear"
                     android:layout_width="110dp"
                     android:layout_height="44dp"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginEnd="2dp"
                     android:layout_marginBottom="36dp"
                     android:backgroundTint="#D79CFC"
                     android:fontFamily="@font/poppins_semibold"
@@ -181,7 +214,7 @@
                     app:cornerRadius="4dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="@+id/imageView20"
-                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="@+id/imageView20"
                     app:strokeColor="#000000"
                     app:strokeWidth="1dp" />
@@ -202,6 +235,7 @@
                     android:id="@+id/imageView19"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="20dp"
                     android:layout_marginBottom="5dp"
                     android:src="@drawable/sad_display"
                     app:layout_constraintBottom_toTopOf="@+id/buttonSad"
@@ -232,12 +266,11 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
 
-
         <androidx.cardview.widget.CardView
             android:id="@+id/cardViewSuggestions"
-            android:layout_width="366dp"
-            android:layout_height="268dp"
-            android:layout_marginTop="20dp"
+            android:layout_width="340dp"
+            android:layout_height="258dp"
+            android:layout_marginTop="32dp"
             app:cardCornerRadius="19dp"
             app:layout_constraintEnd_toEndOf="@+id/cardView"
             app:layout_constraintStart_toStartOf="@+id/cardView"
@@ -251,11 +284,11 @@
 
                 <TextView
                     android:id="@+id/textViewSuggestions"
-                    android:layout_width="330dp"
-                    android:layout_height="234dp"
+                    android:layout_width="300dp"
+                    android:layout_height="36dp"
                     android:layout_marginBottom="4dp"
                     android:fontFamily="@font/poppins_semibold"
-                    android:text="Suggestions: \n\n\t1. Activity One\n\t2. Activity Two\n\t3. Activity Three"
+                    android:text="Recommended Activities:"
                     android:textColor="#174C4F"
                     android:textSize="17sp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -264,6 +297,18 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.0" />
+
+                <LinearLayout
+                    android:id="@+id/activitiesLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="48dp"
+                    android:layout_marginEnd="10dp"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/textViewSuggestions"></LinearLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
@@ -293,7 +338,6 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/textViewEmotionLabel"
             app:layout_constraintTop_toBottomOf="@+id/textViewEmotionLabel" />
-
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
