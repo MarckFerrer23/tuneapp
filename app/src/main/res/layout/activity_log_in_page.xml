@@ -49,19 +49,19 @@
 
         <Button
             android:id="@+id/buttonLog"
-            android:layout_width="310dp"
-            android:layout_height="73dp"
-            android:layout_marginStart="66dp"
-            android:layout_marginTop="24dp"
-            android:backgroundTint="#FA7456"
+            android:layout_width="292dp"
+            android:layout_height="68dp"
+            android:layout_marginTop="40dp"
+            android:backgroundTint="#FF9666"
             android:contentDescription="Sign In"
             android:text="Sign In"
             android:textColor="#FFFFFF"
             android:textSize="18sp"
+            android:fontFamily="@font/poppins_bold"
             android:textStyle="bold"
-            app:cornerRadius="0dp"
+            app:cornerRadius="28dp"
             app:layout_constraintEnd_toEndOf="@+id/linearLayout"
-            app:layout_constraintHorizontal_bias="0.924"
+            app:layout_constraintHorizontal_bias="0.4"
             app:layout_constraintStart_toStartOf="@+id/linearLayout"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 

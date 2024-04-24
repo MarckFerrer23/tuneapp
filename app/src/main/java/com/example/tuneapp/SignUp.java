@@ -29,7 +29,7 @@ import java.util.Map;
 
 public class SignUp extends AppCompatActivity {
     public static final String TAG = "TAG";
-    EditText mFullName, mEmail, mPassword, mPhone;
+    EditText mFullName, mEmail, mPassword, mPhone,mPatientName;
     Button mRegisterBtn;
     FirebaseAuth fAuth;
     ProgressBar progressBar;
@@ -48,6 +48,7 @@ public class SignUp extends AppCompatActivity {
         mEmail = findViewById(R.id.editTextTextEmailAddress);
         mPassword = findViewById(R.id.editTextTextPassword);
         mPhone = findViewById(R.id.editTextPhone);
+        mPatientName = findViewById(R.id. EditPatient);
         mRegisterBtn = findViewById(R.id.buttonReg);
         buttonBup = findViewById(R.id.buttonBup);
 
@@ -67,6 +68,7 @@ public class SignUp extends AppCompatActivity {
                 String password = mPassword.getText().toString();
                 String name = mFullName.getText().toString();
                 String phoneNumber = mPhone.getText().toString();
+                String patient = mPatientName.getText().toString();
 
                 if (TextUtils.isEmpty(email)) {
                     mEmail.setError("Email is Required.");
@@ -116,6 +118,7 @@ public class SignUp extends AppCompatActivity {
                                     user.put("fName",name);
                                     user.put("email",email);
                                     user.put("phone",phoneNumber);
+                                    user.put("patient",patient);
                                     documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void aVoid) {
