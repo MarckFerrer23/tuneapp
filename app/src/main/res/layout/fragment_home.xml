@@ -54,36 +54,45 @@
 
         <TextView
             android:id="@+id/textViewEmotion"
-            android:layout_width="232dp"
-            android:layout_height="52dp"
-            android:layout_marginTop="12dp"
-            android:background="#FDFD96"
+            android:layout_width="97dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="24dp"
+            android:fontFamily="@font/poppins_semibold"
             android:gravity="center"
-            android:text="User is Happy"
+            android:text="is Happy"
             android:textColor="#000000"
             android:textSize="18sp"
-
-            android:fontFamily="@font/poppins_semibold"
             app:layout_constraintEnd_toEndOf="@+id/cardView4"
-            app:layout_constraintHorizontal_bias="0.508"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/cardView4"
+            app:layout_constraintStart_toEndOf="@+id/textView5"
             app:layout_constraintTop_toBottomOf="@+id/cardView4" />
 
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="111dp"
+            android:layout_height="31dp"
+            android:layout_marginStart="-13dp"
+            android:fontFamily="@font/poppins_semibold"
+            android:gravity="center"
+            android:text="TextView"
+            android:textAlignment="viewEnd"
+            android:textColor="#000000"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@+id/textViewEmotion"
+            app:layout_constraintStart_toStartOf="@+id/cardView4"
+            app:layout_constraintTop_toTopOf="@+id/textViewEmotion"
+            app:layout_constraintVertical_bias="0.0" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView"
-            android:layout_width="350dp"
-            android:layout_height="450dp"
-            android:layout_marginStart="10dp"
+            android:layout_width="353dp"
+            android:layout_height="532dp"
             android:layout_marginTop="36dp"
-            android:layout_marginEnd="50dp"
             android:background="#FFFFFF"
             app:cardCornerRadius="19dp"
             app:layout_constraintEnd_toEndOf="@+id/textViewEmotion"
-            app:layout_constraintHorizontal_bias="0.385"
-            app:layout_constraintStart_toStartOf="@+id/textViewEmotion"
+            app:layout_constraintStart_toStartOf="@+id/textView5"
             app:layout_constraintTop_toBottomOf="@+id/textViewEmotion">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -111,11 +120,11 @@
                     android:layout_height="44dp"
                     android:layout_marginBottom="24dp"
                     android:backgroundTint="#FDFD96"
+                    android:fontFamily="@font/poppins_semibold"
                     android:text="HAPPY"
                     android:textColor="#000000"
                     android:textSize="18sp"
                     app:cornerRadius="4dp"
-                    android:fontFamily="@font/poppins_semibold"
                     app:layout_constraintBottom_toTopOf="@+id/imageView21"
                     app:layout_constraintEnd_toEndOf="@+id/imageView6"
                     app:layout_constraintHorizontal_bias="0.333"
@@ -129,6 +138,7 @@
                     android:layout_height="44dp"
                     android:layout_marginBottom="36dp"
                     android:backgroundTint="#FD9696"
+                    android:fontFamily="@font/poppins_semibold"
                     android:text="MAD"
                     android:textColor="#000000"
                     android:textSize="18sp"
@@ -138,7 +148,6 @@
                     app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="@+id/imageView21"
                     app:strokeColor="#000000"
-                    android:fontFamily="@font/poppins_semibold"
                     app:strokeWidth="1dp" />
 
                 <Button
@@ -147,11 +156,11 @@
                     android:layout_height="44dp"
                     android:layout_marginBottom="24dp"
                     android:backgroundTint="#3A9BDC"
+                    android:fontFamily="@font/poppins_semibold"
                     android:text="SAD"
                     android:textColor="#000000"
                     android:textSize="18sp"
                     app:cornerRadius="4dp"
-                    android:fontFamily="@font/poppins_semibold"
                     app:layout_constraintBottom_toTopOf="@+id/imageView20"
                     app:layout_constraintEnd_toEndOf="@+id/imageView19"
                     app:layout_constraintHorizontal_bias="0.666"
@@ -165,6 +174,7 @@
                     android:layout_height="44dp"
                     android:layout_marginBottom="36dp"
                     android:backgroundTint="#D79CFC"
+                    android:fontFamily="@font/poppins_semibold"
                     android:text="FEAR"
                     android:textColor="#000000"
                     android:textSize="18sp"
@@ -174,7 +184,6 @@
                     app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="@+id/imageView20"
                     app:strokeColor="#000000"
-                    android:fontFamily="@font/poppins_semibold"
                     app:strokeWidth="1dp" />
 
                 <ImageView
@@ -284,6 +293,8 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/textViewEmotionLabel"
             app:layout_constraintTop_toBottomOf="@+id/textViewEmotionLabel" />
+
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
