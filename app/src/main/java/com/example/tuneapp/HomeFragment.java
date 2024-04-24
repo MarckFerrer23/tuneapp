@@ -9,36 +9,46 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.EditText;
+import android.text.InputType;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.appcompat.app.AlertDialog;
 
-import java.io.InputStream;
-import java.security.KeyStore;
-import java.security.cert.Certificate;
-import java.security.cert.CertificateFactory;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSocketFactory;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.TrustManagerFactory;
-import javax.net.ssl.X509TrustManager;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.WebSocket;
-import okhttp3.WebSocketListener;
-import java.util.Collections;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
+import java.util.Collections;
+import java.security.KeyStore;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.TrustManagerFactory;
+import javax.net.ssl.X509TrustManager;
+import javax.net.ssl.SSLSocketFactory;
+import java.io.InputStream;
+import java.security.cert.Certificate;
+import java.security.cert.CertificateFactory;
+
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.WebSocket;
+import okhttp3.WebSocketListener;
 
 public class HomeFragment extends Fragment {
 
     private WebSocket webSocket;
-    private TextView emotionText, suggestionsText;
     private ImageView emotionImage;
+    private TextView emotionText, suggestionsText;
+    private LinearLayout activitiesLayout;  // Corrected view reference
+    private DatabaseReference databaseReference;
+    private String currentEmotion;
+
     private final Map<String, Integer> emotionMap = new HashMap<>();
     private final Map<String, List<String>> emotionToActivities = new HashMap<>();
     private static final String TAG = "HomeFragment";
@@ -46,16 +56,24 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+        bindViews(view);
+        setupFirebase();
+        initializeEmotionMap();
+        initializeActivityMap();
+        initializeEmotionButtons(view);  // Ensure this method is correctly defined
+        startWebSocket();
+        return view;
+    }
+
+    private void bindViews(View view) {
         emotionText = view.findViewById(R.id.textViewEmotion);
         suggestionsText = view.findViewById(R.id.textViewSuggestions);
         emotionImage = view.findViewById(R.id.imageView9);
+        activitiesLayout = view.findViewById(R.id.activitiesLayout);  // Corrected ID reference
+    }
 
-        initializeEmotionMap();
-        initializeActivityMap();
-        initializeEmotionButtons(view);
-        startWebSocket();
-
-        return view;
+    private void setupFirebase() {
+        databaseReference = FirebaseDatabase.getInstance().getReference("ActivityRatings");
     }
 
     private void initializeEmotionMap() {
@@ -143,13 +161,62 @@ public class HomeFragment extends Fragment {
         }
     }
 
+    private void displayActivities(List<String> activities) {
+        activitiesLayout.removeAllViews();
+        for (String activity : activities) {
+            Button activityButton = new Button(getActivity());
+            activityButton.setText(activity);
+            activityButton.setOnClickListener(v -> showRatingDialog(activity));
+            activitiesLayout.addView(activityButton);
+        }
+    }
+
+
+    private void showRatingDialog(String activity) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Rate this Activity: " + activity);
+
+        final EditText input = new EditText(getActivity());
+        input.setInputType(InputType.TYPE_CLASS_NUMBER);
+        builder.setView(input);
+
+        builder.setPositiveButton("Submit", (dialog, which) -> {
+            try {
+                int rating = Integer.parseInt(input.getText().toString());
+                saveRatingToDatabase(activity, rating);
+            } catch (NumberFormatException nfe) {
+                Toast.makeText(getActivity(), "Invalid input! Please enter a valid number.", Toast.LENGTH_SHORT).show();
+                Log.e(TAG, "NumberFormatException: Invalid input provided", nfe);
+            }
+        });
+
+        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
+        builder.show();
+    }
+
+    private void saveRatingToDatabase(String activity, int rating) {
+        String key = (activity + "__" + currentEmotion).replaceAll("[^a-zA-Z0-9 ]", "").toLowerCase().replace(" ", "_");
+        DatabaseReference ratingsRef = databaseReference.child(key);
+        Log.d(TAG, "Saving rating to: " + ratingsRef.getPath());
+
+        ratingsRef.push().setValue(rating)
+                .addOnSuccessListener(aVoid -> {
+                    Log.d(TAG, "Successfully saved rating for " + activity);
+                    Toast.makeText(getActivity(), "Rating submitted for " + activity, Toast.LENGTH_SHORT).show();
+                })
+                .addOnFailureListener(e -> {
+                    Log.e(TAG, "Failed to save rating for " + activity, e);
+                    Toast.makeText(getActivity(), "Failed to submit rating for " + activity, Toast.LENGTH_SHORT).show();
+                });
+    }
+
     private void startWebSocket() {
         OkHttpClient client = new OkHttpClient.Builder()
                 .sslSocketFactory(getSSLSocketFactory(), getTrustManager())
                 .hostnameVerifier((hostname, session) -> true)
                 .build();
 
-        Request request = new Request.Builder().url("wss://192.168.55.108:8080").build();
+        Request request = new Request.Builder().url("wss://192.168.68.230:8080").build();
         webSocket = client.newWebSocket(request, new WebSocketListener() {
             @Override
             public void onOpen(@NonNull WebSocket webSocket, @NonNull okhttp3.Response response) {
@@ -174,31 +241,6 @@ public class HomeFragment extends Fragment {
             }
         });
     }
-
-    private void handleReceivedText(String text) {
-        String formattedText = text.trim().toUpperCase();
-        Integer drawableResource = emotionMap.get(formattedText);
-        getActivity().runOnUiThread(() -> {
-            if (drawableResource != null) {
-                emotionImage.setImageResource(drawableResource);
-                emotionText.setText("User is " + formattedText);
-                List<String> activities = selectRandomActivities(formattedText);
-                suggestionsText.setText("Activities: " + String.join(", ", activities));
-            } else {
-                Log.d(TAG, "Unhandled emotion key: " + formattedText);
-                emotionImage.setImageResource(R.drawable.share_fear_emoji);
-                emotionText.setText("No emotion detected");
-                suggestionsText.setText("Activities: No suggestions available");
-            }
-        });
-    }
-
-    private List<String> selectRandomActivities(String emotion) {
-        List<String> availableActivities = emotionToActivities.getOrDefault(emotion, new ArrayList<>());
-        Collections.shuffle(availableActivities);
-        return availableActivities.subList(0, Math.min(3, availableActivities.size()));
-    }
-
     private SSLSocketFactory getSSLSocketFactory() {
         try {
             CertificateFactory cf = CertificateFactory.getInstance("X.509");
@@ -234,5 +276,28 @@ public class HomeFragment extends Fragment {
         } catch (Exception e) {
             throw new RuntimeException("Failed to create Trust Manager", e);
         }
+    }
+
+    private void handleReceivedText(String text) {
+        String formattedText = text.trim().toUpperCase();
+        Integer drawableResource = emotionMap.get(formattedText);
+        getActivity().runOnUiThread(() -> {
+            if (drawableResource != null) {
+                emotionImage.setImageResource(drawableResource);
+                emotionText.setText("User is " + formattedText);
+                currentEmotion = formattedText; // Ensure current emotion is updated correctly
+                List<String> activities = selectRandomActivities(formattedText); // Get random activities
+                displayActivities(activities); // Display these activities
+            } else {
+                Log.d(TAG, "Unhandled emotion key: " + formattedText);
+            }
+        });
+    }
+
+
+    private List<String> selectRandomActivities(String emotion) {
+        List<String> availableActivities = emotionToActivities.getOrDefault(emotion, new ArrayList<>());
+        Collections.shuffle(availableActivities);
+        return availableActivities.subList(0, Math.min(3, availableActivities.size()));
     }
 }

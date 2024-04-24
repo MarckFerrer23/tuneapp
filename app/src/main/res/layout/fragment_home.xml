@@ -294,7 +294,14 @@
             app:layout_constraintStart_toStartOf="@+id/textViewEmotionLabel"
             app:layout_constraintTop_toBottomOf="@+id/textViewEmotionLabel" />
 
-
+        <LinearLayout
+            android:id="@+id/activitiesLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@id/cardViewSuggestions"
+            android:layout_marginTop="16dp">
+        </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
