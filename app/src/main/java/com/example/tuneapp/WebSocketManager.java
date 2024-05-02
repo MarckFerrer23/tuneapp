@@ -29,7 +29,7 @@ public class WebSocketManager {
     }
 
     public void startConnection() {
-        Request request = new Request.Builder().url("wss://192.168.55.106:8080").build();
+        Request request = new Request.Builder().url("wss://192.168.0.21:8080").build();
         webSocket = client.newWebSocket(request, new EchoWebSocketListener());
     }
 

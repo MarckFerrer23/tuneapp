@@ -16,8 +16,12 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.appcompat.app.AlertDialog;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -53,9 +57,40 @@ public class HomeFragment extends Fragment {
     private final Map<String, List<String>> emotionToActivities = new HashMap<>();
     private static final String TAG = "HomeFragment";
 
+    private TextView patientTextView;
+    private FirebaseAuth fAuth;
+    private FirebaseFirestore fireStore;
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+        patientTextView = view.findViewById(R.id.patientName);
+
+        fAuth = FirebaseAuth.getInstance();
+        fireStore = FirebaseFirestore.getInstance();
+
+        FirebaseUser currentUser = fAuth.getCurrentUser();
+        if (currentUser != null) {
+            String userId = currentUser.getUid();
+            DocumentReference docRef = fireStore.collection("users").document(userId);
+            docRef.get().addOnSuccessListener(documentSnapshot -> {
+                if (documentSnapshot.exists()) {
+                    String patient = documentSnapshot.getString("patient");
+
+                    // Log the data
+                    Log.d("HomeFragment", "Full Name: " + patient);
+
+
+                    // Set text views
+                    patientTextView.setText(patient);
+                } else {
+                    Log.d("HomeFragment", "Document does not exist");
+                }
+            }).addOnFailureListener(e -> {
+                Log.e("HomeFragment", "Error fetching document", e);
+            });
+        }
+
         bindViews(view);
         setupFirebase();
         initializeEmotionMap();
@@ -216,7 +251,7 @@ public class HomeFragment extends Fragment {
                 .hostnameVerifier((hostname, session) -> true)
                 .build();
 
-        Request request = new Request.Builder().url("wss://192.168.68.230:8080").build();
+        Request request = new Request.Builder().url("wss://192.168.0.21:8080").build();
         webSocket = client.newWebSocket(request, new WebSocketListener() {
             @Override
             public void onOpen(@NonNull WebSocket webSocket, @NonNull okhttp3.Response response) {
@@ -284,7 +319,7 @@ public class HomeFragment extends Fragment {
         getActivity().runOnUiThread(() -> {
             if (drawableResource != null) {
                 emotionImage.setImageResource(drawableResource);
-                emotionText.setText("User is " + formattedText);
+                emotionText.setText("is " + formattedText);
                 currentEmotion = formattedText; // Ensure current emotion is updated correctly
                 List<String> activities = selectRandomActivities(formattedText); // Get random activities
                 displayActivities(activities); // Display these activities
