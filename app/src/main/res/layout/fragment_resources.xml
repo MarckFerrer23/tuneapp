@@ -53,6 +53,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
+
+
                 <ImageView
                     android:id="@+id/imageView15"
                     android:layout_width="35dp"
@@ -96,11 +98,14 @@
                     android:layout_marginEnd="20dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.533"
+                    app:layout_constraintHorizontal_bias="0.508"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.809"
-                    app:srcCompat="@drawable/world_autism_awareness_day" />
+                    app:layout_constraintVertical_bias="0.808"
+                    app:srcCompat="@drawable/world_autism_awareness_day"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:onClick="openImage"/>
 
                 <TextView
                     android:id="@+id/textView11"
@@ -223,6 +228,9 @@
                     android:layout_width="247dp"
                     android:layout_height="138dp"
                     android:layout_marginBottom="48dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:onClick="openImage"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="@+id/textView16"
                     app:layout_constraintHorizontal_bias="0.516"
@@ -230,7 +238,6 @@
                     app:srcCompat="@drawable/girls_pic" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-
         </androidx.cardview.widget.CardView>
 
         <!-- CardView 3 -->
@@ -252,6 +259,49 @@
                 android:layout_height="match_parent">
 
                 <!-- Add your views for CardView 3 here -->
+
+                <ImageView
+                    android:id="@+id/imageView11"
+                    android:layout_width="49dp"
+                    android:layout_height="29dp"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/studycorgi_logo" />
+
+                <TextView
+                    android:id="@+id/textView5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginTop="20dp"
+                    android:text="STUDYCORGI"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toEndOf="@+id/imageView11"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/textView12"
+                    android:layout_width="240dp"
+                    android:layout_height="150dp"
+                    android:layout_marginTop="68dp"
+                    android:text="Autism spectrum disorder (ASD) is quite a wide-spread and complex health problem. The American Academy of Pediatrics recommends screening all children for autism. In some cases, autism symptoms are not severe, but some patients cannot lead a standard lifestyle."
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Button
+                    android:id="@+id/learnmorebutton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="80dp"
+                    android:backgroundTint="#FF4B23"
+                    android:text="Learn more"
+                    app:cornerRadius="10dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

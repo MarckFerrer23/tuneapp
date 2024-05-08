@@ -1,5 +1,8 @@
 package com.example.tuneapp;
 
+import static android.R.color.system_background_light;
+import static android.R.color.white;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,6 +18,7 @@ import android.text.InputType;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.appcompat.app.AlertDialog;
+import android.content.res.ColorStateList;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -198,11 +202,19 @@ public class HomeFragment extends Fragment {
 
     private void displayActivities(List<String> activities) {
         activitiesLayout.removeAllViews();
+        // Assuming you are in an Activity or Fragment context
+        int buttonBackgroundColor = getResources().getColor(R.color.yellow);
+        int buttonTextColor = getResources().getColor(R.color.black);
+
         for (String activity : activities) {
             Button activityButton = new Button(getActivity());
-            activityButton.setText(activity);
-            activityButton.setOnClickListener(v -> showRatingDialog(activity));
-            activitiesLayout.addView(activityButton);
+            activityButton.setText(activity); // Set the text of the button to the activity
+            activityButton.setBackgroundTintList(ColorStateList.valueOf(buttonBackgroundColor)); // Set background color
+            activityButton.setTextSize(16); // Set text size
+            activityButton.setAllCaps(false); // Disable all caps
+            activityButton.setPadding(16, 16, 16, 16); // Set padding
+            activityButton.setOnClickListener(v -> showRatingDialog(activity)); // Set click listener
+            activitiesLayout.addView(activityButton); // Add the button to the layout
         }
     }
 
@@ -251,7 +263,7 @@ public class HomeFragment extends Fragment {
                 .hostnameVerifier((hostname, session) -> true)
                 .build();
 
-        Request request = new Request.Builder().url("wss://192.168.0.21:8080").build();
+        Request request = new Request.Builder().url("wss://192.168.254.117:8080").build();
         webSocket = client.newWebSocket(request, new WebSocketListener() {
             @Override
             public void onOpen(@NonNull WebSocket webSocket, @NonNull okhttp3.Response response) {

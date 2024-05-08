@@ -16,7 +16,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView5"
         android:layout_width="wrap_content"
-        android:layout_height="136dp"
+        android:layout_height="199dp"
         android:layout_alignStart="@+id/user_name"
         android:layout_alignEnd="@+id/user_name"
         android:layout_alignParentTop="true"
@@ -37,11 +37,11 @@
             android:layout_marginTop="299dp"
             android:layout_marginEnd="-28dp"
             android:background="#FFFFFF"
-            app:cardCornerRadius="15dp"/>
+            app:cardCornerRadius="15dp" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="345dp"
-            android:layout_height="122dp">
+            android:layout_width="match_parent"
+            android:layout_height="161dp">
 
             <TextView
                 android:id="@+id/user_emailAddress"
@@ -54,10 +54,10 @@
                 android:textSize="12sp"
                 app:layout_constraintBottom_toTopOf="@+id/user_phone_number"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.304"
+                app:layout_constraintHorizontal_bias="0.487"
                 app:layout_constraintStart_toEndOf="@+id/textView6"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.527" />
+                app:layout_constraintVertical_bias="0.605" />
 
             <TextView
                 android:id="@+id/user_phone_number"
@@ -65,11 +65,11 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/user_emailAddress"
                 android:layout_marginStart="5dp"
-                android:layout_marginBottom="20dp"
+                android:layout_marginBottom="24dp"
                 android:layout_toEndOf="@id/profile_image"
                 android:textColor="#000000"
                 android:textSize="12sp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/patient_name"
                 app:layout_constraintEnd_toEndOf="@+id/user_emailAddress"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="@+id/user_emailAddress" />
@@ -78,8 +78,8 @@
                 android:id="@+id/imageView13"
                 android:layout_width="31dp"
                 android:layout_height="18dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="36dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="40dp"
                 android:src="@drawable/ic_email"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -88,8 +88,8 @@
                 android:id="@+id/textView6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:layout_marginTop="36dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="40dp"
                 android:text="Email:"
                 app:layout_constraintStart_toEndOf="@+id/imageView13"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -98,10 +98,10 @@
                 android:id="@+id/imageView14"
                 android:layout_width="31dp"
                 android:layout_height="25dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginBottom="28dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginBottom="16dp"
                 android:src="@drawable/ic_phone"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/imageView12"
                 app:layout_constraintStart_toStartOf="parent" />
 
             <TextView
@@ -110,12 +110,62 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="3dp"
                 android:text="Phone:"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/textView18"
                 app:layout_constraintEnd_toStartOf="@+id/user_phone_number"
-                app:layout_constraintHorizontal_bias="0.25"
+                app:layout_constraintHorizontal_bias="0.321"
                 app:layout_constraintStart_toEndOf="@+id/imageView14"
                 app:layout_constraintTop_toBottomOf="@+id/textView6"
-                app:layout_constraintVertical_bias="0.532" />
+                app:layout_constraintVertical_bias="0.454" />
+
+            <TextView
+                android:id="@+id/textView18"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="3dp"
+                android:layout_marginBottom="20dp"
+                android:text="Patient:"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/patient_name"
+                app:layout_constraintHorizontal_bias="0.391"
+                app:layout_constraintStart_toEndOf="@+id/imageView12" />
+
+            <TextView
+                android:id="@+id/patient_name"
+                android:layout_width="77dp"
+                android:layout_height="18dp"
+                android:layout_marginEnd="148dp"
+                android:layout_marginBottom="20dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/user_phone_number" />
+
+            <ImageView
+                android:id="@+id/imageView12"
+                android:layout_width="31dp"
+                android:layout_height="25dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginBottom="16dp"
+                android:src="@drawable/autism_logo"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <Button
+                android:id="@+id/editbutton"
+                android:layout_width="48dp"
+                android:layout_height="30dp"
+                android:paddingLeft="2dp"
+                android:paddingTop="2dp"
+                android:paddingRight="2dp"
+                android:paddingBottom="2dp"
+                android:text="edit"
+                android:textSize="8sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.947"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.076" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
