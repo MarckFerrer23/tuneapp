@@ -56,7 +56,7 @@
         <LinearLayout
             android:id="@+id/linearLayout3"
             android:layout_width="243dp"
-            android:layout_height="53dp"
+            android:layout_height="35dp"
             android:layout_marginTop="20dp"
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="@+id/cardView4"
@@ -65,13 +65,14 @@
             app:layout_constraintTop_toBottomOf="@+id/cardView4">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="53dp">
+                android:layout_width="242dp"
+                android:layout_height="match_parent">
 
                 <TextView
                     android:id="@+id/textViewEmotion"
                     android:layout_width="82dp"
                     android:layout_height="26dp"
+                    android:layout_marginStart="10dp"
                     android:layout_marginTop="5dp"
                     android:layout_marginEnd="28dp"
                     android:layout_marginBottom="2dp"
@@ -83,15 +84,15 @@
                     android:textSize="18sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.282"
+                    app:layout_constraintHorizontal_bias="0.59"
                     app:layout_constraintStart_toEndOf="@+id/patientName"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.4" />
+                    app:layout_constraintVertical_bias="0.375" />
 
                 <TextView
                     android:id="@+id/patientName"
-                    android:layout_width="66dp"
-                    android:layout_height="28dp"
+                    android:layout_width="102dp"
+                    android:layout_height="24dp"
                     android:layout_marginStart="28dp"
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="2dp"
@@ -104,7 +105,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.434" />
+                    app:layout_constraintVertical_bias="0.333" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
 
@@ -284,8 +285,8 @@
 
                 <TextView
                     android:id="@+id/textViewSuggestions"
-                    android:layout_width="300dp"
-                    android:layout_height="36dp"
+                    android:layout_width="294dp"
+                    android:layout_height="23dp"
                     android:layout_marginBottom="4dp"
                     android:fontFamily="@font/poppins_semibold"
                     android:text="Recommended Activities:"
@@ -300,15 +301,32 @@
 
                 <LinearLayout
                     android:id="@+id/activitiesLayout"
-                    android:layout_width="278dp"
-                    android:layout_height="177dp"
+                    android:layout_width="279dp"
+                    android:layout_height="143dp"
                     android:layout_marginStart="5dp"
-                    android:layout_marginTop="48dp"
+                    android:layout_marginTop="32dp"
                     android:layout_marginEnd="10dp"
                     android:orientation="vertical"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/textViewSuggestions"></LinearLayout>
+                    app:layout_constraintTop_toTopOf="@+id/textViewSuggestions">
+
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/button3"
+                    android:layout_width="125dp"
+                    android:layout_height="34dp"
+                    android:paddingTop="-1dp"
+                    android:paddingBottom="-1dp"
+                    android:text="Add more"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.497"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/activitiesLayout"
+                    app:layout_constraintVertical_bias="1.0" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>

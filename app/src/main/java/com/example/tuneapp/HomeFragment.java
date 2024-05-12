@@ -3,6 +3,7 @@ package com.example.tuneapp;
 import static android.R.color.system_background_light;
 import static android.R.color.white;
 
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -47,6 +48,8 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.WebSocket;
 import okhttp3.WebSocketListener;
+
+
 
 public class HomeFragment extends Fragment {
 
@@ -263,7 +266,7 @@ public class HomeFragment extends Fragment {
                 .hostnameVerifier((hostname, session) -> true)
                 .build();
 
-        Request request = new Request.Builder().url("wss://192.168.254.117:8080").build();
+        Request request = new Request.Builder().url("wss://192.168.1.2:8080").build();
         webSocket = client.newWebSocket(request, new WebSocketListener() {
             @Override
             public void onOpen(@NonNull WebSocket webSocket, @NonNull okhttp3.Response response) {
@@ -324,7 +327,15 @@ public class HomeFragment extends Fragment {
             throw new RuntimeException("Failed to create Trust Manager", e);
         }
     }
-
+    private void playNotificationSound() {
+        try {
+            MediaPlayer mediaPlayer = MediaPlayer.create(getActivity(), R.raw.notification_sound);
+            mediaPlayer.setOnCompletionListener(MediaPlayer::release);
+            mediaPlayer.start();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     private void handleReceivedText(String text) {
         String formattedText = text.trim().toUpperCase();
         Integer drawableResource = emotionMap.get(formattedText);
@@ -335,6 +346,7 @@ public class HomeFragment extends Fragment {
                 currentEmotion = formattedText; // Ensure current emotion is updated correctly
                 List<String> activities = selectRandomActivities(formattedText); // Get random activities
                 displayActivities(activities); // Display these activities
+                playNotificationSound();
             } else {
                 Log.d(TAG, "Unhandled emotion key: " + formattedText);
             }
