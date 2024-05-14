@@ -2,7 +2,7 @@ package com.example.tuneapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
+import java.util.regex.Pattern;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
@@ -141,8 +141,12 @@ public class SignUp extends AppCompatActivity {
             }
 
             private boolean isEmailValid(String email) {
-                // Check if the email has the format *@gmail.com
-                return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches() && email.endsWith("@gmail.com");
+                // Email regex pattern
+                String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+                // Compile the pattern
+                Pattern pattern = Pattern.compile(emailRegex);
+                // Check if the email matches the pattern
+                return pattern.matcher(email).matches();
             }
 
             private boolean isPasswordValid(String password) {

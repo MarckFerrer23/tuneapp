@@ -55,27 +55,39 @@
 
         <LinearLayout
             android:id="@+id/linearLayout3"
-            android:layout_width="243dp"
-            android:layout_height="35dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="@+id/cardView4"
             app:layout_constraintHorizontal_bias="0.514"
             app:layout_constraintStart_toStartOf="@+id/cardView4"
             app:layout_constraintTop_toBottomOf="@+id/cardView4">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="242dp"
-                android:layout_height="match_parent">
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/patientName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_semibold"
+                    android:gravity="center"
+                    android:text=""
+                    android:textAlignment="viewEnd"
+                    android:textColor="#000000"
+                    android:textSize="18sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent" />
 
                 <TextView
                     android:id="@+id/textViewEmotion"
-                    android:layout_width="82dp"
-                    android:layout_height="26dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginEnd="28dp"
-                    android:layout_marginBottom="2dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
                     android:fontFamily="@font/poppins_semibold"
                     android:gravity="center"
                     android:text="is Happy"
@@ -84,30 +96,12 @@
                     android:textSize="18sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.59"
                     app:layout_constraintStart_toEndOf="@+id/patientName"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.375" />
-
-                <TextView
-                    android:id="@+id/patientName"
-                    android:layout_width="102dp"
-                    android:layout_height="24dp"
-                    android:layout_marginStart="28dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="2dp"
-                    android:fontFamily="@font/poppins_semibold"
-                    android:gravity="center"
-                    android:text=""
-                    android:textAlignment="viewEnd"
-                    android:textColor="#000000"
-                    android:textSize="18sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.333" />
+                    app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
+
+
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView"
@@ -315,7 +309,7 @@
                 </LinearLayout>
 
                 <Button
-                    android:id="@+id/button3"
+                    android:id="@+id/buttonAddPersonalActivity"
                     android:layout_width="125dp"
                     android:layout_height="34dp"
                     android:paddingTop="-1dp"
@@ -325,8 +319,9 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.497"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/activitiesLayout"
+                    app:layout_constraintTop_toBottomOf="@id/activitiesLayout"
                     app:layout_constraintVertical_bias="1.0" />
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
