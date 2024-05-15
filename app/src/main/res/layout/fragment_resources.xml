@@ -54,7 +54,6 @@
                 android:layout_height="match_parent">
 
 
-
                 <ImageView
                     android:id="@+id/imageView15"
                     android:layout_width="35dp"
@@ -96,16 +95,16 @@
                     android:layout_height="156dp"
                     android:layout_marginStart="20dp"
                     android:layout_marginEnd="20dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:onClick="openImage"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.508"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.808"
-                    app:srcCompat="@drawable/world_autism_awareness_day"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:onClick="openImage"/>
+                    app:srcCompat="@drawable/world_autism_awareness_day" />
 
                 <TextView
                     android:id="@+id/textView11"

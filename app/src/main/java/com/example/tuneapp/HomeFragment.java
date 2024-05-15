@@ -3,6 +3,7 @@ package com.example.tuneapp;
 import static android.R.color.system_background_light;
 import static android.R.color.white;
 
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,6 +17,8 @@ import android.widget.LinearLayout;
 import android.widget.EditText;
 import android.text.InputType;
 import androidx.annotation.NonNull;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
 import androidx.appcompat.app.AlertDialog;
 import android.content.res.ColorStateList;
@@ -47,6 +50,18 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.WebSocket;
 import okhttp3.WebSocketListener;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
+import android.os.Build;
+
+
+
+
+
+
+
 
 public class HomeFragment extends Fragment {
 
@@ -65,11 +80,19 @@ public class HomeFragment extends Fragment {
     private FirebaseAuth fAuth;
     private FirebaseFirestore fireStore;
 
+    private static final String CHANNEL_ID = "emotion_notification_channel";
+
+    // Notification ID
+    private static final int NOTIFICATION_ID = 1;
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-        patientTextView = view.findViewById(R.id.patientName);
 
+
+        patientTextView = view.findViewById(R.id.patientName);
+        Button addPersonalActivityButton = view.findViewById(R.id.buttonAddPersonalActivity);
+        addPersonalActivityButton.setOnClickListener(v -> showAddActivityDialog());
         fAuth = FirebaseAuth.getInstance();
         fireStore = FirebaseFirestore.getInstance();
 
@@ -263,7 +286,7 @@ public class HomeFragment extends Fragment {
                 .hostnameVerifier((hostname, session) -> true)
                 .build();
 
-        Request request = new Request.Builder().url("wss://192.168.254.117:8080").build();
+        Request request = new Request.Builder().url("wss://192.168.1.6:8080").build();
         webSocket = client.newWebSocket(request, new WebSocketListener() {
             @Override
             public void onOpen(@NonNull WebSocket webSocket, @NonNull okhttp3.Response response) {
@@ -324,7 +347,58 @@ public class HomeFragment extends Fragment {
             throw new RuntimeException("Failed to create Trust Manager", e);
         }
     }
+    private void playNotificationSound() {
+        try {
+            MediaPlayer mediaPlayer = MediaPlayer.create(getActivity(), R.raw.notification_sound);
+            mediaPlayer.setOnCompletionListener(MediaPlayer::release);
+            mediaPlayer.start();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
+    private void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = getString(R.string.channel_name);
+            String description = getString(R.string.channel_description);
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+            channel.setDescription(description);
+
+            NotificationManager notificationManager = requireActivity().getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
+
+    private void showNotification(String emotion) {
+        // Create notification channel
+        createNotificationChannel();
+
+        // Get the NotificationManager from the context
+        NotificationManager notificationManager = (NotificationManager) requireContext().getSystemService(Context.NOTIFICATION_SERVICE);
+
+        // Get the patient name from the patientTextView
+        String patientName = patientTextView.getText().toString();
+
+        // Build the notification content
+        String contentText = patientName + " is " + emotion;
+
+        // Build the notification
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(requireContext(), CHANNEL_ID)
+                .setSmallIcon(R.drawable.ic_logo)
+                .setContentTitle("Emotion Received")
+                .setContentText(contentText)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                .setAutoCancel(true); // Removes the notification when tapped
+
+        // Notify
+        if (notificationManager != null) {
+            notificationManager.notify(NOTIFICATION_ID, builder.build());
+        } else {
+            Log.e(TAG, "NotificationManager is null");
+        }
+    }
     private void handleReceivedText(String text) {
         String formattedText = text.trim().toUpperCase();
         Integer drawableResource = emotionMap.get(formattedText);
@@ -332,14 +406,59 @@ public class HomeFragment extends Fragment {
             if (drawableResource != null) {
                 emotionImage.setImageResource(drawableResource);
                 emotionText.setText("is " + formattedText);
-                currentEmotion = formattedText; // Ensure current emotion is updated correctly
-                List<String> activities = selectRandomActivities(formattedText); // Get random activities
-                displayActivities(activities); // Display these activities
+                currentEmotion = formattedText;
+                List<String> activities = selectRandomActivities(formattedText);
+                displayActivities(activities);
+                playNotificationSound();
+
+                // Show notification
+                createNotificationChannel(); // Ensure the notification channel is created
+                showNotification(formattedText);
             } else {
                 Log.d(TAG, "Unhandled emotion key: " + formattedText);
             }
         });
     }
+    private void showAddActivityDialog() {
+        if (currentEmotion == null || currentEmotion.isEmpty()) {
+            // Show an alert if no current emotion is detected
+            Toast.makeText(getActivity(), "No current emotion detected. Please try again.", Toast.LENGTH_LONG).show();
+        } else {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setTitle("Add Personal Activity for " + currentEmotion);
+
+            final EditText input = new EditText(getActivity());
+            input.setInputType(InputType.TYPE_CLASS_TEXT);
+            builder.setView(input);
+
+            builder.setPositiveButton("Submit", (dialog, which) -> {
+                String activity = input.getText().toString();
+                if (!activity.isEmpty()) {
+                    savePersonalActivityToDatabase(activity);
+                }
+            });
+
+            builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
+            builder.show();
+        }
+    }
+
+    private void savePersonalActivityToDatabase(String activity) {
+        if (currentEmotion != null && !currentEmotion.isEmpty()) {
+            FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+            if (currentUser != null) {
+                String path = "PersonalActivities/" + currentUser.getUid() + "/activities/" + currentEmotion.toLowerCase();
+                DatabaseReference ref = FirebaseDatabase.getInstance().getReference(path);
+                ref.push().setValue(activity)
+                        .addOnSuccessListener(aVoid -> Toast.makeText(getActivity(), "Activity added", Toast.LENGTH_SHORT).show())
+                        .addOnFailureListener(e -> Toast.makeText(getActivity(), "Failed to add activity", Toast.LENGTH_SHORT).show());
+            }
+        } else {
+            Toast.makeText(getActivity(), "No current emotion detected", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
 
 
     private List<String> selectRandomActivities(String emotion) {
